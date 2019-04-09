@@ -37,7 +37,7 @@ class Solution {
     }
 }
 
-		//Good runtime 96 memory 55
+		//Good runtime 96 memory 55 
 class Solution {
     public boolean isPalindrome(String s) {
         char[] c = s.toLowerCase().toCharArray();
