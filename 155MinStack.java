@@ -27,3 +27,55 @@ class MinStack {
         return min;
     }
 }
+
+
+public class MinStack {
+		//Linked List solution by leetcode shubh3
+
+    public class stackNode {
+        int val;
+        stackNode next;
+        public stackNode(int val){
+            this.val = val;
+        }
+    }
+    
+    stackNode top;
+    stackNode min;
+    
+    /** initialize your data structure here. */
+    public MinStack() {
+        top = null;
+    }
+
+    public void push(int x) {
+        if(top == null){
+            top = new stackNode(x);
+            min = new stackNode(x);
+        }else{
+            if(x<=min.val){
+                stackNode temp = new stackNode(x);
+                temp.next = min;
+                min = temp;
+            }
+            stackNode nextNode = new stackNode(x);
+            nextNode.next = top;
+            top = nextNode;
+        }
+    }
+
+    public void pop() {
+        if(top.val == min.val){
+            min = min.next;
+        }
+        top = top.next;
+    }
+
+    public int top() {
+        return top.val;
+    }
+
+    public int getMin() {
+        return min.val;
+    }
+}
