@@ -26,6 +26,10 @@ class Solution {
     }
 }
 
+		//Two pointers solution by leetcode
+		//Simple o(n) time and o(1) space, but if there's a small number of elements
+		//to remove it's not very optimal
+
 public int removeElement(int[] nums, int val) {
     int i = 0;
     for (int j = 0; j < nums.length; j++) {
@@ -36,6 +40,10 @@ public int removeElement(int[] nums, int val) {
     }
     return i;
 }
+
+		//Two pointer when elements to remove are rare
+		//Lil bit more complex but handles this case more optimally
+		//o(n) time and o(1) complexity
 
 public int removeElement(int[] nums, int val) {
     int i = 0;
