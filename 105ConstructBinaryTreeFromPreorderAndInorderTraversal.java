@@ -67,7 +67,26 @@ class Solution {
 		//memory was 39mb, less than only 13% but i got it from 36.9mb sample
 		//So again memory measure is not exact in leetcode
 		//Best approach so far
-		//Very simple and elegant, 
+		//Very simple and elegant,
+
+		//How it works, it creates the tree using only preoder array, inorder array is used to check tree structure only
+
+		//First it creates left nodes with preorder, until preorder[n] is equal to the first inorden element, when they are equal it
+		//"creates" a null left and goes to the right, every time it goes right it increases inorder counter by one, then on the right
+		//it will create a node ONLY if STOP variable is not null and STOP.VAL is not equal to inorder[m], this "stop" is the real trick,
+		//stop will contain the father node of a left child, when the child is left (if the father is a right children it will not be stop node,
+		//stop nodes are only fathers of left children, if the father is right children stop will be the first left children of any node), so for example if you are
+		//the right child of a node, your stop will be the left father of your father, filling left is simple, filling right needs to check for stop
+		//brillian algorithm. Unknown author since i found it on samples, credits to unkown author
+
+		//Example    1
+		//      2          3      
+		//   4    5     6     7
+		//  8 9 10 11 12 13 14 15
+
+		//Lets say we are checking if we can create node 11, stop will be node 1 because 5 and 2 are right fathers, and the first left father is 1
+		//Or for node 13 6 cant be stop because it is a right father, so 13 stop is 3 because it is the first left father
+		//And node 15 will have stop == null because there's not a single left father in their ascendance 
 
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
