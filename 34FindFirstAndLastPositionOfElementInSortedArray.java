@@ -1,3 +1,9 @@
+		//My solution
+		//Basically do a binary search and when found go 1 by 1 to the lower and upper
+		//Suprisingly good at 0ms, better than 100%
+		//Very surprising memory at 39.2mb better than 99.73%
+		//guess leetcode did not have many bad cases where start and end are near the
+		//first and last character
 class Solution {
     public int[] searchRange(int[] nums, int target) {
         if(nums.length==0) return new int[]{-1,-1};
@@ -40,4 +46,49 @@ class Solution {
         }
         return new int[]{-1,-1};
     }
+}
+
+		//Leetcode's solution using binary search
+		//
+class Solution {
+	
+
+    public int[] searchRange(int[] nums, int target) {
+        int[] targetRange = {-1, -1};
+
+        int leftIdx = extremeInsertionIndex(nums, target, true);
+
+        // assert that `leftIdx` is within the array bounds and that `target`
+        // is actually in `nums`.
+        if (leftIdx == nums.length || nums[leftIdx] != target) {
+            return targetRange;
+        }
+
+        targetRange[0] = leftIdx;
+        targetRange[1] = extremeInsertionIndex(nums, target, false)-1;
+
+        return targetRange;
+    }
+
+
+
+    // returns leftmost (or rightmost) index at which `target` should be
+    // inserted in sorted array `nums` via binary search.
+    private int extremeInsertionIndex(int[] nums, int target, boolean left) {
+        int lo = 0;
+        int hi = nums.length;
+
+        while (lo < hi) {
+            int mid = (lo + hi) / 2;
+            if (nums[mid] > target || (left && target == nums[mid])) {
+                hi = mid;
+            }
+            else {
+                lo = mid+1;
+            }
+        }
+
+        return lo;
+    }
+
 }
