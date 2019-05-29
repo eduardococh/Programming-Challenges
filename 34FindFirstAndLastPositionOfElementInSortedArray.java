@@ -49,13 +49,14 @@ class Solution {
 }
 
 		//Leetcode's solution using binary search
-		//
+		//It first uses a typical binary search, which returns the leftmost or rightmost index
 class Solution {
 	
 
     public int[] searchRange(int[] nums, int target) {
         int[] targetRange = {-1, -1};
 
+	
         int leftIdx = extremeInsertionIndex(nums, target, true);
 
         // assert that `leftIdx` is within the array bounds and that `target`
@@ -74,15 +75,24 @@ class Solution {
 
     // returns leftmost (or rightmost) index at which `target` should be
     // inserted in sorted array `nums` via binary search.
+
+    //usage of left variable is so on the first search hi can get lower(closer to leftmost)
+    //and in the second search it will never be true, so high will only move if target is to the left
+
     private int extremeInsertionIndex(int[] nums, int target, boolean left) {
         int lo = 0;
         int hi = nums.length;
 
         while (lo < hi) {
             int mid = (lo + hi) / 2;
+
+	    //if nums[mid] bigger than target, means target is to the left
+	    //OR if left true and target is equal to nums[mid]
             if (nums[mid] > target || (left && target == nums[mid])) {
                 hi = mid;
             }
+
+	    //target is to the right
             else {
                 lo = mid+1;
             }
