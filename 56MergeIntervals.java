@@ -1,7 +1,9 @@
 		//My solution
-		//Big surprise as a great algorithm (but complex?)
-		//Runtime of 
-class Solution {
+		//Big surprise as a great algorithm (but complex?) took me long to make
+		//Runtime of 2ms better than 99.88% 
+		//Memory of o(n) and 38mb better than 99%
+		//Good choice to go
+class Solution {	  
     public int[][] merge(int[][] intervals) {
         if(intervals.length==0) return new int[][]{};
         if(intervals.length==1) return intervals;
@@ -17,12 +19,14 @@ class Solution {
             while(j<intervalsList.size()){
                 boolean isNewInterval=true;
                 int intervalToTest[]=intervalsList.get(j);
+
                 //If first or second of current interval is in interval to test, this interval belongs to 
                 //another one
+
                 if(((currentInterval[0]>=intervalToTest[0] && currentInterval[0]<=intervalToTest[1]) 
                    ||
                    (currentInterval[1]>=intervalToTest[0] && currentInterval[1]<=intervalToTest[1] ))
-                  ||
+                ||
                     ((intervalToTest[0]>=currentInterval[0] && intervalToTest[0]<=currentInterval[1]) 
                    ||
                    (intervalToTest[1]>=currentInterval[0] && intervalToTest[1]<=currentInterval[1] ))){
@@ -42,7 +46,6 @@ class Solution {
                 }
                 
                 if(isNewInterval==false){
-                    //System.out.println("we remove "+intervalsList.get(j)[0]+" "+intervalsList.get(j)[1]);
                     intervalsList.remove(j);
                 }else{
                     j++;
@@ -59,4 +62,33 @@ class Solution {
         
         return finalRes;
     }
+}
+
+		//Solution using sorting
+		//Sort by first index and then just run in o(n)
+		//Interesting sorting method using lambda in array sort
+		//Bad runtime at 37 ms better than only 34
+		//Good memory at 38.mb better than 99.21
+class Solution {
+	public int[][] merge(int[][] intervals) {
+		if (intervals.length <= 1)
+			return intervals;
+
+		// Sort by ascending starting point
+		Arrays.sort(intervals, (i1, i2) -> Integer.compare(i1[0], i2[0]));
+
+		List<int[]> result = new ArrayList<>();
+		int[] newInterval = intervals[0];
+		result.add(newInterval);
+		for (int[] interval : intervals) {
+			if (interval[0] <= newInterval[1]) // Overlapping intervals, move the end if needed
+				newInterval[1] = Math.max(newInterval[1], interval[1]);
+			else {                             // Disjoint intervals, add the new interval to the list
+				newInterval = interval;
+				result.add(newInterval);
+			}
+		}
+
+		return result.toArray(new int[result.size()][]);
+	}
 }
