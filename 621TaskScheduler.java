@@ -76,6 +76,40 @@ public class Solution {
     }
 }
 
+		//Leetcode's calculation approach
+		//Very simple and elegant approach, 
+		//Amazing runtime of 2ms better than 100% o(1) (problem solution is wrong)
+		//Good memory of 37.8mb better than 95%
+		//Best approach of them all
+
+public class Solution {
+    public int leastInterval(char[] tasks, int n) {
+
+	//Count every task number
+        int[] map = new int[26];
+        for (char c: tasks)
+            map[c - 'A']++;
+
+	//Sort tasks from smaller to bigger
+        Arrays.sort(map);
+
+	//max val is equal to the task with the biggest number, idle slots is max_val times n cooling time
+        int max_val = map[25] - 1, idle_slots = max_val * n;
+
+        for (int i = 24; i >= 0 && map[i] > 0; i--) {
+	    
+	    //extract from idle slots this task number of executions, or max val, 
+            idle_slots -= Math.min(map[i], max_val);
+        }
+	
+	//if idleslots is bigger than 0 return idleslots+tasks.length otherwise only tasks.length 
+	//idle slots can be negative
+        return idle_slots > 0 ? idle_slots + tasks.length : tasks.length;
+    }
+}
+
+
+
 
 
 		//My bad solution, doesn't work but interesting for referrence considering first approach
