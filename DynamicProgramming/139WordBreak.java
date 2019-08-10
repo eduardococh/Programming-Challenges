@@ -4,6 +4,7 @@
         //It moves an I from 1 to s.length and then generates all substring from 0 to i-1, if a position in
         //f array is true (which means continuity for the string)
         //where n is dict length
+        //this is not so logic as the second one i think, so i prefer next approach
         //Good runtime better than 77.59% O(N^2)
         //Good memory better than 93.48% O(N) 
 public class Solution {
@@ -26,7 +27,12 @@ public class Solution {
     }
 }
 
-        //Runtime of  O(M+N)
+        //Optimized DP solution from leetcode's segfault
+        //It goes through every position of the string and tries every string from dict, it then asks if
+        //current str is smaller or equal than i and if that's true then asks for the array f in position
+        //i-str.length, is this is true then is checks if this substring is equal to our str
+        //Good runtime of  2ms faster than 94.43%  O(M+N)
+        //Good memory of 35.9mb better than 94.48% O(N)
 public class Solution {
     public boolean wordBreak(String s, List<String> dict) {
         
