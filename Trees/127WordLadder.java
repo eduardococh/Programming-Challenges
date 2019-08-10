@@ -1,61 +1,14 @@
-
-        //My solution (time limit exceeded, so maybe no solution)
-        //Like "brute force approach", the problem with my approach is that I understood issue as
-        //a "tree" where every word would branch to all other words, and this works but takes a big amount of time
-        //in worse case scenario runtime would be O(n!) since every word would be checked against every other n-1 word
-        //It takes a breadth first search, which guarantees that whenever you find a result you have come to the
-        //shortest one
-        //Good principle but thinking it as a tree is not the way to go
-class Solution {
-    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        if(!wordList.contains(endWord)) return 0;
-        
-        Queue<ArrayList<String>> myQueue=new LinkedList<ArrayList<String>>();
-        myQueue.add(new ArrayList(Arrays.asList(beginWord)));
-        HashMap<String,Boolean> wordListM=new HashMap<>();
-        
-        while(!myQueue.isEmpty()){
-            
-            ArrayList<String> currentList=myQueue.poll();
-            String topOfList=currentList.get(currentList.size()-1);
-            
-            for(int i=0;i<wordList.size();i++){
-                String testWord=wordList.get(i);
-                if(!currentList.contains(testWord)){
-                    if(canTransition(topOfList,testWord)){
-                        currentList.add(testWord);
-                        if(testWord.equals(endWord)){
-                            return currentList.size();
-                        }
-                        myQueue.add(new ArrayList(currentList));
-                        currentList.remove(testWord);
-                    }
-                }
-            }
-        }
-        return 0;
-    }
-    
-    public boolean canTransition(String original, String next){
-        byte differentChars=0;
-        for(int i=0;i<original.length();i++){
-            if(original.charAt(i)!=next.charAt(i)){
-                differentChars++;
-            }
-            if(differentChars>1) return false;
-        }
-        return true;
-    }
-    
-}
-
         //Leetcode's Breadth First Search approach 
         //The key to the problem is to take it as a graph, my mistake was that I thought that a word could be visited
         //in several ways and so the three maked sense, but when you think it as a graph you see that a word
         //can only be visited once, and once you reach it there's no way to reach it which is not a cycle, breadth first
         //search guarantees that you visit all words in every level, so when you reach the one you've reached it
         //First you do a preprocessing and create the graph and then you do BFS
+        //
+        //The graph here is done with a hashmap of integer-lists
+        //
         //Average runtime at 70ms better than 46.45% O(N*M) N number of words and M length of words
+        //Good memory at 39.8mb better than ~90%
         //the preprocessing takes N*M and then the BFS at most takes N 
 import javafx.util.Pair;
 
@@ -122,8 +75,9 @@ class Solution {
 
         //Bidirectional approach
         //Really smart, start a BFS from start word and from end word, which reduces BFS time complexity in half
-        //Have to visited dictionaries, when you find a 
-
+        //Have to visited dictionaries, when you find a node which has already been visited it means
+        //you have found the route, the sum of the levels visited by both routes is the result
+        //Considerable improvement over the first approach
 import javafx.util.Pair;
 
 class Solution {
@@ -224,4 +178,110 @@ class Solution {
 
     return 0;
   }
+}
+
+
+        //From leetcode's sample 14 ms (with me ran in 12ms)
+        //The big improvement over leetcode's solutions is that here we don't do any preprocessing
+        //and we go straight to create a graph using sets and lists
+        //Amazing runtime of 12ms better than 98.10% O(M*N)
+        //Amazing memory of 38.7mb better than 97.81% O(M*N)
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> dict = new HashSet<>();
+        for (String str : wordList) {
+            dict.add(str);
+        }
+        if (!dict.contains(endWord)) return 0;
+        Set<String> set1 = new HashSet<>();
+        Set<String> set2 = new HashSet<>();
+        set1.add(beginWord);
+        set2.add(endWord);
+        int level = 1;
+        while (!set1.isEmpty() && !set2.isEmpty()) {
+            //advances set 1 by 1
+            if (set1.size() > set2.size()) {
+                Set<String> temp = set1;
+                set1 = set2;
+                set2 = temp;
+            }
+            level++;
+            Set<String> q = new HashSet<>();
+            for (String str : set1) {
+
+                char[] arr = str.toCharArray();
+                for (int i=0; i<arr.length; i++) {
+
+                    char ch = arr[i];
+                    for (char c='a'; c<='z'; c++) {
+                        arr[i] = c;
+                        String next = String.valueOf(arr);
+                        //if the other set contains new word we found it
+                        if (set2.contains(next)) return level;
+                        //if dict (a global generated words set) does not contain this word continue
+                        if (!dict.contains(next)) continue;
+                        //if dict contains this word it means we found our next step and we add it to the queue
+                        dict.remove(next);
+                        q.add(next);
+                    }
+                    arr[i] = ch;
+                }
+            }
+            set1 = q;
+        }
+        
+        return 0;
+    }
+}
+
+
+
+        //My attempt at a solution (time limit exceeded, so no solution)
+        //Like "brute force approach", the problem with my approach is that I understood issue as
+        //a "tree" where every word would branch to all other words, and this works but takes a big amount of time
+        //in worse case scenario runtime would be O(n!) since every word would be checked against every other n-1 word
+        //It takes a breadth first search, which guarantees that whenever you find a result you have come to the
+        //shortest one
+        //Good principle but thinking it as a tree is not the way to go
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if(!wordList.contains(endWord)) return 0;
+        
+        Queue<ArrayList<String>> myQueue=new LinkedList<ArrayList<String>>();
+        myQueue.add(new ArrayList(Arrays.asList(beginWord)));
+        HashMap<String,Boolean> wordListM=new HashMap<>();
+        
+        while(!myQueue.isEmpty()){
+            
+            ArrayList<String> currentList=myQueue.poll();
+            String topOfList=currentList.get(currentList.size()-1);
+            
+            for(int i=0;i<wordList.size();i++){
+                String testWord=wordList.get(i);
+                if(!currentList.contains(testWord)){
+                    if(canTransition(topOfList,testWord)){
+                        currentList.add(testWord);
+                        if(testWord.equals(endWord)){
+                            return currentList.size();
+                        }
+                        myQueue.add(new ArrayList(currentList));
+                        currentList.remove(testWord);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    
+    public boolean canTransition(String original, String next){
+        byte differentChars=0;
+        for(int i=0;i<original.length();i++){
+            if(original.charAt(i)!=next.charAt(i)){
+                differentChars++;
+            }
+            if(differentChars>1) return false;
+        }
+        return true;
+    }
+    
 }
