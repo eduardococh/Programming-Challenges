@@ -1,3 +1,8 @@
+        //My solution
+        //Two pointer, read and write
+        //Amazing runtime better than 97.05% O(N)
+        //Amazing memory better than 100% O(1)
+        //A good approach, maybe complex but well
 class Solution {
     public int compress(char[] chars) {
         if(chars==null || chars.length==0) return 0;
@@ -44,4 +49,25 @@ class Solution {
         }
         return writePos;
     }
-}S
+}
+
+
+        //Leetcode's article solution
+        //
+class Solution {
+    public int compress(char[] chars) {
+        int anchor = 0, write = 0;
+        for (int read = 0; read < chars.length; read++) {
+            if (read + 1 == chars.length || chars[read + 1] != chars[read]) {
+                chars[write++] = chars[anchor];
+                if (read > anchor) {
+                    for (char c: ("" + (read - anchor + 1)).toCharArray()) {
+                        chars[write++] = c;
+                    }
+                }
+                anchor = read + 1;
+            }
+        }
+        return write;
+    }
+}
