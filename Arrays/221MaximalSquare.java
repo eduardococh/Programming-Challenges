@@ -7,17 +7,17 @@ class Solution {
         for(int i=0;i<matrix.length;i++){
             for(int j=0;j<matrix[0].length;j++){
                 if(matrix[i][j]=='1'){
-
+                    
+                    //System.out.println("were in "+i+" "+j+" "+matrix[i][j]);
                     max=solvePosition(max,matrix,i,j);
-                    System.out.println("were in "+i+" "+j+" "+matrix[i][j]);
-                    System.out.println("Max is "+max);
+                    //System.out.println("Max is "+max);
             
-                    for(int k=0;k<matrix.length;k++){
+                    /*for(int k=0;k<matrix.length;k++){
                         for(int l=0;l<matrix[0].length;l++){
                             System.out.print(matrix[k][l]);
                         }
                         System.out.println();
-                    }
+                    }*/
                 }
             }
         }
@@ -31,23 +31,23 @@ class Solution {
             //Are we in bounds?
             if(i+currentMax>=matrix.length || j+currentMax>=matrix[0].length) break;
             
-            for(int k=0;k<currentMax;k++){
+            for(int k=0;k<=currentMax;k++){
                 //vertical check
-                System.out.println("v checking "+i+" "+j+" "+matrix[i][j]);
+                //System.out.println("v checking "+(i+currentMax)+" "+(j+k)+" "+matrix[i+currentMax][j+k]);
                 if(matrix[i+currentMax][j+k]=='0'){
                     addLayer=false;
-                    for(int l=i+currentMax;l>=i;l--){
+                    /*for(int l=i+currentMax;l>=i;l--){
                         matrix[l][j+k]='0';
-                    }
+                    }*/
                 }
                 
                 //horizontal check
-                System.out.println("h checking "+i+" "+j+" "+matrix[i][j]);
+                //System.out.println("h checking "+(i+k)+" "+(j+currentMax)+" "+matrix[i+k][j+currentMax]);
                 if(matrix[i+k][j+currentMax]=='0'){
                     addLayer=false;
-                    for(int l=j+currentMax;l>=j;l--){
+                    /*for(int l=j+currentMax;l>=j;l--){
                         matrix[i+k][l]='0';
-                    }
+                    }*/
                 }
             }
             if(addLayer){
