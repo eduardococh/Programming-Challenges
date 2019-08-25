@@ -1,4 +1,8 @@
-
+        //Good solution,
+        //Run a slow and fast nodes, once they find run two slows
+        //When they find you get the result
+        //Amazing runtime better than 100%
+        //Amazing memory better than ~90%
 public class Solution {
     public ListNode detectCycle(ListNode head) {
         ListNode walker=head,runner=head;
