@@ -53,19 +53,24 @@ class Solution {
 
 
         //Leetcode's article solution
-        //
+        //Iterate array with read variable, write variable self explains
+        //currentChar saves the character currently being processed
+        //Same runtime as my solution and memory little better
+        //Amazing runtime better than 96.95%
+        //Clever handling of the integer 1 digit problem, by converting integer
+        //to string, and then to char array
 class Solution {
     public int compress(char[] chars) {
-        int anchor = 0, write = 0;
+        int currentChar = 0, write = 0;
         for (int read = 0; read < chars.length; read++) {
             if (read + 1 == chars.length || chars[read + 1] != chars[read]) {
-                chars[write++] = chars[anchor];
-                if (read > anchor) {
-                    for (char c: ("" + (read - anchor + 1)).toCharArray()) {
+                chars[write++] = chars[currentChar];
+                if (read >  currentChar) {
+                    for (char c: ("" + (read - currentChar + 1)).toCharArray()) {
                         chars[write++] = c;
                     }
                 }
-                anchor = read + 1;
+                currentChar = read + 1;
             }
         }
         return write;
