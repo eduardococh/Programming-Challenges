@@ -1,0 +1,3 @@
+Common Mistakes
+-Using the "++" operator wrong on recursive calls, since it modifies the content of the variable which 
+ usually is not the intended behaviour, better to use i+1 (which does not modify variable)
