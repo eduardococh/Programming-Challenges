@@ -1,3 +1,7 @@
 Common Mistakes
 -Using the "++" operator wrong on recursive calls, since it modifies the content of the variable which 
  usually is not the intended behaviour, better to use i+1 (which does not modify variable)
+-Related to the one above, using "++" operator wrong, if you put if BEFORE it adds and then takes
+ the value, if you put if AFTER it takes the value and then adds 1
+-If you're having a hard time implementing a "correct" version go with the dirtier but working solution
+ since here you're short on time, later if you have time you can correct it
