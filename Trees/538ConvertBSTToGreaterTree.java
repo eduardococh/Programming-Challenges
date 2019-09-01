@@ -1,12 +1,6 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
+        //My solution
+        //Good runtime better than 93.71% O(N)
+        //Good solution, simple and clear, memory is on the bad side thou
 class Solution {
     public TreeNode convertBST(TreeNode root) {
         doSum(root,0);
