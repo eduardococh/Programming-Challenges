@@ -1,7 +1,11 @@
         //Solution by leetcode's windliang
-        //
+        //Priority queue approach, put first k elements in priority queue
+        //And then start creating your list, grab the smaller element
+        //and add the "next" of the smaller element to the priority queue, if there is next
+        //Good runtime at 5ms better than 75.89% O(N log K) (Every push and pop takes log K,
+        //while finding the smaller takes constant time)
+        //Average memory less than 48.64% O(K) as the priority queue stores k items at most
 class Solution {
-    
     public ListNode mergeKLists(ListNode[] lists) {
         Comparator<ListNode> cmp = new Comparator<ListNode>() {  
             @Override
@@ -26,89 +30,79 @@ class Solution {
             if(next!=null){
                 q.add(next);
             }
+            /*Memory tweak
+            point = point.next; ;
+            if(point.next!=null){
+                q.add(point.next);
+            }
+            */
         }
         return head.next;
-        /*if(lists==null || lists.length==0) return null;
-        ListNode result=new ListNode(0);
-        
-        Comparator<ListNode> myComp=new Comparator<ListNode>(){
-            public int compare(ListNode node1,ListNode node2){
-                //-1 node1 bigger, 0 equal, 1 node2 bigger
-                return Integer.valueOf(node1.val).compareTo(Integer.valueOf(node2.val));
-            }  
-        };
-        
-        int cont=0;
-        PriorityQueue<ListNode> pQueue = new PriorityQueue<ListNode>(myComp);
-        for(int i=0;i<lists.length;i++){
-            while(lists[i]!=null){
-                System.out.println("we add"+lists[i].val);
-                pQueue.add(lists[i]);
-                lists[i]=lists[i].next;
-            }
-        }
-        /*for(int i=0;i<lists.length;i++){
-         //   pQueue
-            if(lists[i]!=null){
-                cont++;
-                pQueue.add(lists[i]);
-                lists[i]=lists[i].next;
-                if(lists[i]==null) cont--;                
-            }
-        }
-        ListNode min=pQueue.poll();
-        ListNode pointer=min;
-        result.next=pointer;
-        int index=0;
-        while(min!=null && cont>0){
-            while(lists[index]==null && cont>0){
-                index++;
-                if(index==lists.length) index=0;
-            }
-            pQueue.add(lists[index]);
-            lists[index]=lists[index].next;
-            if(lists[index]==null) cont--;
-            index++;
-            if(index==lists.length) index=0;
-            min=pQueue.poll();
-            pointer.next=min;
-            pointer=pointer.next;
-        }
-        ListNode pointer=pQueue.poll();
-        result.next=pointer;
-        while(!pQueue.isEmpty()){
-            pointer.next=pQueue.poll();
-            pointer=pointer.next;
-            System.out.println("we remove"+pointer);
-        }
-        System.out.println("before going out");
-        return result.next;*/
     }
 }
 
-class Solution {
-    
-    public ListNode mergeKLists(ListNode[] lists) {
-        ListNode result=new ListNode(0);
-        
-        Comparator<ListNode> myComp=new Comparator<ListNode>(){
-            public int compare(ListNode node1,ListNode node2){
-                //-1 node1 bigger, 0 equal, 1 node2 bigger
-                return node1.val-node2.val;
-            }  
-        };
-        
-        PriorityQueue<ListNode> pQueue = new PriorityQueue<ListNode>(myComp);
-        for(int i=0;i<lists.length;i++){
-         //   pQueue
-            pQueue.add(lists[i]);
-            lists[i]=lists[i].next;
+        //One by one comparison approach by leetcode's windliang
+        //For every item in the result you'll search for the smallest of the k current
+        //spaces in the array, taking k time for every N item
+        //Bad approach, not brute force but no good
+        //Runtime of O(N*K)
+        //Memory of O(N) (here we create a new node a, thus making N 'a' nodes)
+        //It can be O(1) if we do it in place   
+public ListNode mergeKLists(ListNode[] lists) {
+    int min_index = 0;
+    ListNode head = new ListNode(0);
+    ListNode h = head;
+    while (true) {
+        boolean isBreak = true; 
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null) { 
+                if (lists[i].val < min) {
+                    min_index = i;
+                    min = lists[i].val;
+                } 
+                isBreak = false;
+            }
+
         }
-        ListNode min=pQueue.poll();
-        while(min!=null){
-            result.next=min;
-            
+        if (isBreak) {
+            break;
         }
-        return result.next;
+        //O(1) 
+        //h.next = lists[min_index];
+        ListNode a = new ListNode(lists[min_index].val);
+        h.next = a;
+        h = h.next; 
+        lists[min_index] = lists[min_index].next;
     }
+    h.next = null;
+    return head.next;
+}
+
+        //Brute force approach by leetcode's windliang
+        //Merge lists in an ArrayList, sort it and then put them in a ListNode
+        //Bad approach, just here to know it
+        //Runtime O(N log N)
+        //Memory O(N)
+public ListNode mergeKLists(ListNode[] lists) {
+    List<Integer> l = new ArrayList<Integer>();
+   
+    for (ListNode ln : lists) {
+        while (ln != null) {
+            l.add(ln.val);
+            ln = ln.next;
+        }
+    }
+   
+    Collections.sort(l);
+ 
+    ListNode head = new ListNode(0);
+    ListNode h = head;
+    for (int i : l) {
+        ListNode t = new ListNode(i);
+        h.next = t;
+        h = h.next;
+    }
+    h.next = null;
+    return head.next;
 }
