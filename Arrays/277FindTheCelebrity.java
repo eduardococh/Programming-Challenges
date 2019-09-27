@@ -1,7 +1,9 @@
         //My solution
+        //Bad runtime at 8ms better than 29.00% O(N)
+        //Average memory at 45.7mb better than 56.25% O(1)
+        //Not terrible but no good, not really any good logic, just know when to break
 public class Solution extends Relation {
     public int findCelebrity(int n) {
-        HashSet<Integer> isNotCel=new HashSet<Integer>();
         for(int i=0;i<n;i++){
             //System.out.println("in "+i);
             int j;
@@ -21,5 +23,37 @@ public class Solution extends Relation {
             if(j==n) return i;
         }
         return -1;
+    }
+}
+
+        //Two pass solution
+        //Amazing runtime at 0ms better than 100% O(N)
+        //Average memory better than 56% O(1)
+        //Brilliant algorithm, I'll explain below
+
+        //FIRST LOOP is to find our probable candidate, let's say from 100 persons we end
+        //with 71 as candidate, we start with 0 and for every number we 
+
+        //A)Know it, in this case this new N could be a celebrity, 
+        //  and we N don't (since we know someone) so we switch celebrity
+        //B)Don't know it, in this case N number can not be celebrity since we dont know it
+
+        //Then we reach 71, if this is really our celebrity this number will not know any other
+        //number after 71, since that is the definition of celebrity, and there is only one celebrity
+
+        //The second loop is for verification, since there might not be any celebrity
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        //Special case where two persons do not know each other (no celebrity)
+        if (n == 2 && !knows(0, 1) && !knows(1, 0)) return -1;
+        
+        int candidate = 0;
+        for (int i = 1; i < n; i++)
+            if (knows(candidate, i)) candidate = i;
+        
+        for (int i = 0; i < candidate; i++) 
+            if (knows(candidate, i)) return -1;
+            
+        return candidate;
     }
 }
