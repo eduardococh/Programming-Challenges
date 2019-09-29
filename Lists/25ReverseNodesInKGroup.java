@@ -37,3 +37,40 @@ class Solution {
         return back;
     }
 }
+
+        //Java collections.reverse(list) would work, but not for an interview i believe
+
+        //Recursive solution from leetcode's 0ms answers
+        //This reverse algorithm (the core reversion) is very interesting as it only needs
+        //3 variables (cur,prev,next) to do the reversal, it is another approach
+        //Simpler than my approach I believe, same runtime, so I would recommend it
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+       if (head == null || head.next == null || k <= 1)
+           return head;
+        
+        int count = 0;
+        ListNode temp = head;
+        
+        while(count < k) {
+            if (temp == null)
+                return head;
+            temp = temp.next;
+            count++;
+        }
+        
+        ListNode prev = reverseKGroup(temp, k);
+        ListNode cur = head;
+        
+        while(count > 0) {
+            ListNode next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+            
+            count--;
+        }
+        
+        return prev;
+    }
+}
