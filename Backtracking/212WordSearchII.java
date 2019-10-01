@@ -77,8 +77,32 @@ class Solution {
     }
 }
 
+
+        //From leetcode's 7ms sample
+        //Usage of a trie, a fast but memory intensive data structure
+        //Where we build words in a trie
+        //Amazing runtime of 7ms better than 100% O(M(4*3^(L-1))) => (M^(L-1)) removing constants
+        //Every M cell will start their search with 4 possibilities, the next steps
+        //will have at most 3 possibilities (can not go back to previous) and this
+        //will be repeated for L-1 cells
+        //Good memory at 44.3mb better than 77.78% O(L^26) since every node in our tree
+        //could have 26 children (english alphabet) for the lenght of the longest word
+        //Leetcode's article solution is supposed to have optimizations, but it does not
+        //show since their runtime is 26 ms, this one is plain not optimized and has a better 
+        //runtime, that's maybe because of short test cases
+        //Worth looking into leetcode's solution for trie optimizations
 class Solution {
+
+    class Trie {
+        String word;
+        Trie[] next;
+        Trie() {
+            next = new Trie[26];
+        }
+    }
+    
     Trie root = new Trie();   
+
     public List<String> findWords(char[][] board, String[] words) {
         List<String> result = new LinkedList<>();
         if(board==null || board.length==0 || board[0].length==0) return result;
@@ -108,13 +132,19 @@ class Solution {
     
     private void dfs(char[][] board, int i, int j, Trie node,  List<String> result){
         
-        if(i<0||j<0||i>=board.length||j>=board[0].length||board[i][j]=='#'||node.next[board[i][j]-'a']==null) return;
+        //4 checks for i and j in upper and lower bound
+        if(i<0  ||  j<0  ||  i>=board.length  ||  j>=board[0].length 
+        //check if this position has been visited or if the next char is not on trie (word does not exist)
+                ||  board[i][j]=='#'  ||  node.next[board[i][j]-'a']==null ) return;
+        
         char c = board[i][j];
         node = node.next[c-'a'];
         if(node.word != null) {
             result.add(node.word);
+            //avoid duplicate words
             node.word = null;
         }
+
         board[i][j]='#';     
         dfs(board, i-1,j,node, result);
         dfs(board, i+1,j, node, result);
@@ -122,98 +152,4 @@ class Solution {
         dfs(board, i,j+1, node, result);
         board[i][j]=c;        
     }
-}
-
-class Trie {
-    String word;
-    Trie[] next;
-    Trie() {
-        next = new Trie[26];
-    }
-}
-
-        //Leetcode's solution
-        //FORGET IT, use the sample 7ms, improved performance and less lines of code (80 here vs 50 there)
-        //Using a trie
-        //Average runtime of 26ms better than 47.47% O(M(4*3^L−1))
-        //Where M is number of cells and L is maximum length of words
-        //Average memory better than 62.22% O(N)
-class TrieNode {
-  HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();
-  String word = null;
-  public TrieNode() {}
-}
-
-class Solution {
-  char[][] _board = null;
-  ArrayList<String> _result = new ArrayList<String>();
-
-  public List<String> findWords(char[][] board, String[] words) {
-
-    // Step 1). Construct the Trie
-    TrieNode root = new TrieNode();
-    for (String word : words) {
-      TrieNode node = root;
-
-      for (Character letter : word.toCharArray()) {
-        if (node.children.containsKey(letter)) {
-          node = node.children.get(letter);
-        } else {
-          TrieNode newNode = new TrieNode();
-          node.children.put(letter, newNode);
-          node = newNode;
-        }
-      }
-      node.word = word;  // store words in Trie
-    }
-
-    this._board = board;
-    // Step 2). Backtracking starting for each cell in the board
-    for (int row = 0; row < board.length; ++row) {
-      for (int col = 0; col < board[row].length; ++col) {
-        if (root.children.containsKey(board[row][col])) {
-          backtracking(row, col, root);
-        }
-      }
-    }
-
-    return this._result;
-  }
-  
-  private void backtracking(int row, int col, TrieNode parent) {
-    Character letter = this._board[row][col];
-    TrieNode currNode = parent.children.get(letter);
-
-    // check if there is any match
-    if (currNode.word != null) {
-      this._result.add(currNode.word);
-      currNode.word = null;
-    }
-
-    // mark the current letter before the EXPLORATION
-    this._board[row][col] = '#';
-
-    // explore neighbor cells in around-clock directions: up, right, down, left
-    int[] rowOffset = {-1, 0, 1, 0};
-    int[] colOffset = {0, 1, 0, -1};
-    for (int i = 0; i < 4; ++i) {
-      int newRow = row + rowOffset[i];
-      int newCol = col + colOffset[i];
-      if (newRow < 0 || newRow >= this._board.length || newCol < 0
-          || newCol >= this._board[0].length) {
-        continue;
-      }
-      if (currNode.children.containsKey(this._board[newRow][newCol])) {
-        backtracking(newRow, newCol, currNode);
-      }
-    }
-
-    // End of EXPLORATION, restore the original letter in the board.
-    this._board[row][col] = letter;
-
-    // Optimization: incrementally remove the leaf nodes
-    if (currNode.children.isEmpty()) {
-      parent.children.remove(letter);
-    }
-  }
 }
