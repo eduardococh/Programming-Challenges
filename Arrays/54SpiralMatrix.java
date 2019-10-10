@@ -1,4 +1,54 @@
-		//My recursive solution
+        //My iterative solution
+        //It is long at 40 lines but I believe is really clear and can
+        //be understood with just a view
+        //Amazing runtime 0ms O(N*M) better than 100%
+        //(it appears all solutions achieve 0ms)
+        //Amazing memory better than 100% O(1)
+        //the fix at the end of removing is valid I believe, another possible
+        //fix would have been an intermediate if as shown in comment below
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> result=new ArrayList<Integer>();
+        if(matrix==null || matrix.length==0 || matrix[0].length==0) return result;
+        int top=0,bottom=matrix.length-1;
+        int left=0,right=matrix[0].length-1;
+        while(top<=bottom && left<=right){
+            int columnIndex=left;
+            while(columnIndex<=right){
+                result.add(matrix[top][columnIndex]);
+                columnIndex++;
+            }
+            top++;
+            int rowIndex=top;
+            while(rowIndex<=bottom){
+                result.add(matrix[rowIndex][right]);
+                rowIndex++;
+            }
+            right--;
+            //possible fix to avoid removing items at the end
+            //if(top<=bottom && left<=right){
+            columnIndex=right;
+            while(columnIndex>=left){
+                result.add(matrix[bottom][columnIndex]);
+                columnIndex--;
+            }
+            bottom--;
+            rowIndex=bottom;
+            while(rowIndex>=top){
+                result.add(matrix[rowIndex][left]);
+                rowIndex--;
+            }
+            left++;
+        }
+        while(result.size()>(matrix.length)*(matrix[0].length)){
+            result.remove(result.size()-1);
+        }
+        return result;
+    }
+}
+        
+        
+        //My recursive solution
 		//Amazing runtime at 0ms better than 100% O(m*n) (almost all or all have same rt)
 		//Amazing memory at 34.4mb better than 99.62% 
 		//A complex solution, at least compared with the iterative ones
@@ -58,37 +108,6 @@ class Solution {
             r2--;
             c1++;
             c2--;
-        }
-        return ans;
-    }
-}
-
-
-		//Simulation of the spiral approach by leetcode
-		//This implementation does not seem the clearest to me but
-		//i should try to do the simulation myself
-class Solution {
-    public List<Integer> spiralOrder(int[][] matrix) {
-        List ans = new ArrayList();
-        if (matrix.length == 0) return ans;
-        int R = matrix.length, C = matrix[0].length;
-        boolean[][] seen = new boolean[R][C];
-        int[] dr = {0, 1, 0, -1};
-        int[] dc = {1, 0, -1, 0};
-        int r = 0, c = 0, di = 0;
-        for (int i = 0; i < R * C; i++) {
-            ans.add(matrix[r][c]);
-            seen[r][c] = true;
-            int cr = r + dr[di];
-            int cc = c + dc[di];
-            if (0 <= cr && cr < R && 0 <= cc && cc < C && !seen[cr][cc]){
-                r = cr;
-                c = cc;
-            } else {
-                di = (di + 1) % 4;
-                r += dr[di];
-                c += dc[di];
-            }
         }
         return ans;
     }
