@@ -1,4 +1,8 @@
-
+        //My solution
+        //Runtime of 0ms better than 100% O(N) where N is total code length
+        //Memory of 36.3mb better than 100% O(N)
+        //Simple going through all lines and using the commentBlock variable to keep
+        //track of where things go
 class Solution {
     public List<String> removeComments(String[] source) {
         final int len=source.length;
@@ -14,8 +18,6 @@ class Solution {
             source[i]=source[i]; 
             int currLen=source[i].length();
             for(int j=0;j<currLen;j++){
-                //System.out.print("exec "+j+" ");
-                //System.out.println(source[i].charAt(j));
                 
                 if(commentBlock){
                     
