@@ -45,7 +45,7 @@ class Solution {
 
 }
 
-
+        //Leetcode solution
 class Solution {
     public int numSubarrayBoundedMax(int[] A, int L, int R) {
         return count(A, R) - count(A, L - 1);
