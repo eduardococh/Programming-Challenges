@@ -1,3 +1,13 @@
+        //My solution
+        //Divide input into subarrays based on numbers bigger than R
+        //once i have a subarray just calculate the "potential" number
+        //and then use the numbers smaller than L to substract them from
+        //potencial number
+        //Simple solution in my opinion, but my code is lenghy
+        //FUNDAMENTAL: Use formula N*(N+1)/2 to get the total number
+        //of potential results
+        //Average runtime at 4ms better than 34.44% O(N)
+        //Best memory than 100% O(1)
 class Solution {
     public int numSubarrayBoundedMax(int[] A, int L, int R) {
         int startIndex=0,endIndex=0;
@@ -45,7 +55,12 @@ class Solution {
 
 }
 
-        //Leetcode solution
+        //Leetcode's solution
+        //First count all numbers smaller or equal than R, this will be your "potential"
+        //then cound all numbers smaller or equal than L-1, this will be the one giving result
+        //This solution is super simple and elegant, maybe not so logical as the one above
+        //Amazing runtime better than 97.79% O(N)
+        //Amazing memory better than 100% O(1)
 class Solution {
     public int numSubarrayBoundedMax(int[] A, int L, int R) {
         return count(A, R) - count(A, L - 1);
