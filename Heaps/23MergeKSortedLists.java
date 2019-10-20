@@ -41,6 +41,47 @@ class Solution {
     }
 }
 
+        //My own priorityQueue approach from the second time I found this problem
+        //CURIOSITY 
+        //I used lambda comparison vs anonimous class above, all else is the same approach
+        //using lambda resulted in a TERRIBLE runtime of 35ms, which can be seen as a spike in
+        //the accepted runtime distribution, upon further research in internet it seems lamdba
+        //could be a little slower, but not this bad, must be something to do with leetcode compiler
+        //Average runtime of 35ms better than 41.94% O(N Log K), insertion/deletion takes Log K
+        //and we do this for N elements
+        //Better memory than 34% O(K)
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode result=new ListNode(0);
+        
+        //A comparator is an object, like a list it needs a type between <>
+        //a name= and after = sign you put what you need to compare, this is a difference
+        //with a typical object
+        //I missed comparator type 
+        Comparator<ListNode>  myComp=(ListNode l1,ListNode l2)->l1.val-l2.val;
+        
+        PriorityQueue<ListNode> myQueue=new PriorityQueue<ListNode>(myComp);
+        
+        for(int i=0;i<lists.length;i++){
+            if(lists[i]!=null){
+                myQueue.add(lists[i]);    
+            }
+        }
+        
+        ListNode pointer=result;
+        while(!myQueue.isEmpty()){
+            ListNode smallest=myQueue.poll();
+            if(smallest.next!=null){
+                myQueue.add(smallest.next);    
+            }
+            pointer.next=smallest;
+            pointer=pointer.next;
+        }
+        return result.next;
+    }
+}
+
+
         //One by one comparison approach by leetcode's windliang
         //For every item in the result you'll search for the smallest of the k current
         //spaces in the array, taking k time for every N item
