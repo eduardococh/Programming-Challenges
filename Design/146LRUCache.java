@@ -39,3 +39,32 @@ class LRUCache {
         }
     }
 }
+
+
+        //Linked hashmap approach from leetcode's 54ms samples 
+        //Would be advisable to use it in this problem or any other problem
+        //that might need it, maybe in an interview this would be very simple but
+        //it shows knowledge
+        //Very good runtime (54ms, in my case took 60ms)
+        //Bad memory 58.6mb better than 31.90%
+class LRUCache extends LinkedHashMap<Integer, Integer> {
+    private int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75F, true);
+        this.capacity = capacity;
+    }
+    
+    public int get(int key) {
+        return super.getOrDefault(key, -1);
+    }
+    
+    public void put(int key, int value) {
+        super.put(key, value);
+    }
+    
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+        return size() > capacity;
+    }
+}
