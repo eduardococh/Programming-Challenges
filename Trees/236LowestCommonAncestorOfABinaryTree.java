@@ -63,6 +63,7 @@ class Solution {
     }
 }
         //Same approach as above but with my own logic
+        //Same amazing runtime and memory
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if(root==null) return null;
