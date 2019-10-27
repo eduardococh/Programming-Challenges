@@ -1,5 +1,6 @@
 
 		//My initial solution with binary search
+        //Go row by row and do a binary search for every row
 		//Actually not sooo bad, but not great
 		//Runtime of 6ms better than 29.70% O(N LOG (N))
 		//Good memory of 42.4 mb better than 99.9% or 100% o(1)
@@ -54,6 +55,26 @@ class Solution {
             }
         }
 
+        return false;
+    }
+}
+
+
+        //MY SUPER UGLY SOLUTION, NOT WORTH LOOKING IT
+        //Based on the approach above but notoriously inelegant
+        //Average runtime better than 31% O(M+N)
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix==null || matrix.length==0 || matrix[0].length==0) return false;
+        int row=0,column=matrix[0].length-1;
+        int len=matrix.length;
+        while(row<len && column>=0){
+            if(matrix[row][column]==target) return true;
+            if(row<len && column>=0 && matrix[row][column]>target) column--;
+            if(row<len && column>=0 && matrix[row][column]==target) return true;
+            if(row<len && column>=0 && matrix[row][column]<target) row++;
+            if(row<len && column>=0 && matrix[row][column]==target) return true;
+        }
         return false;
     }
 }
