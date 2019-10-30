@@ -62,6 +62,47 @@ class Solution {
     }
 }
 
+        //My second solution
+        //Do a binary search for the minimum element
+        //once you find the 
+        //Amazing runtime better than 100% O(Log N)
+        //Good memory better than 47.17% O(1)
+public class Solution {
+    public int search(int[] nums, int target) {
+        if(nums.length==0) return -1;
+        int low=0,high=nums.length-1;
+        //find the minimum
+        while(low<high){
+            int mid=low+(high-low)/2;
+            if(nums[mid]>nums[high]){
+                low=mid+1;
+            }else{
+                high=mid;
+            }
+        }
+        //do we go left or right?
+        if(low>0 && target>=nums[0]){
+            high=low-1;
+            low=0;
+        }else{
+            high=nums.length-1;
+        }
+        //binary search in left or right half 
+        while(low<high){
+            int mid=low+(high-low)/2;
+            if(nums[mid]>target){
+                high=mid-1;
+            }else if(nums[mid]<target){
+                low=mid+1;
+            }else{
+                return mid;
+            }
+        }
+        if(nums[low]==target) return low;
+        return -1;
+    }
+}
+
 		//Solution based on leetcode's renegade with minor tweaks
 		//Only one altered binary search with the question
 		//if (nums[mid] > nums[end]) 
