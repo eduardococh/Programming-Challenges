@@ -35,6 +35,26 @@ class Solution {
     }
 }
 
+    //Another version without 'this'
+public class Solution {
+  
+  HashMap<Node, Node> visited = new HashMap<Node, Node>();
+
+  public Node copyRandomList(Node node) {
+      if(node==null) return null;
+      if(visited.containsKey(node)) return visited.get(node);
+      Node newNode=new Node(node.val);
+      
+      visited.put(node,newNode);
+      
+      newNode.next=copyRandomList(node.next);
+      newNode.random=copyRandomList(node.random);
+      
+      
+      return newNode;
+  }
+}
+
 
         //Iterative approach by leetcode
         //Same runtime and memory as recursive
