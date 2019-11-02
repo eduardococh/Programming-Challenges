@@ -57,3 +57,29 @@ public class Solution extends Relation {
         return candidate;
     }
 }
+
+        //My two pass solution
+        //Missed some details from the original one, so its not
+        //the most elegant or best runtime
+        //Buuut solution above while faster does consider a special case
+        //My solution works for all cases (and in an interview i believe this
+        //would be more welcome than using if for special case, but i dont know)
+        //Amazing runtime at 6ms better than 97.37% O(N)
+        //Good memory better than 58.33%
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        
+        int celebrity=0;
+        for(int candidate=1;candidate<n;candidate++){
+            if(knows(celebrity,candidate)){
+                celebrity=candidate;
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(i!=celebrity && (!knows(i,celebrity) || knows(celebrity,i))){
+                return -1;
+            }
+        }
+        return celebrity;
+    }
+}
