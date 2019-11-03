@@ -112,3 +112,45 @@ class Solution {
         return ans;
     }
 }
+
+        //Iterative solution from mock interview
+        //Clear code that worked almost at first time with minimal improvements
+        //Amazing runtime of 0ms
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> result=new ArrayList<Integer>();
+        if(matrix==null || matrix.length==0 || matrix[0].length==0) return result;
+        int startRow=0;
+        int endRow=matrix.length-1;
+        int startColumn=0;
+        int endColumn=matrix[0].length-1;
+        while(startRow<=endRow && startColumn<=endColumn){
+
+            for(int i=startColumn;i<=endColumn;i++){
+                result.add(matrix[startRow][i]);
+            }
+            startRow++;
+
+            for(int i=startRow;i<=endRow;i++){
+                    result.add(matrix[i][endColumn]);
+            }
+            endColumn--;
+
+            if(startRow>endRow || startColumn>endColumn){
+                break;
+            }
+
+            for(int i=endColumn;i>=startColumn;i--){
+                result.add(matrix[endRow][i]);
+            }
+            endRow--;
+
+
+            for(int i=endRow;i>=startRow;i--){
+                result.add(matrix[i][startColumn]);
+            }
+            startColumn++;
+        }
+        return result;
+    }
+}
