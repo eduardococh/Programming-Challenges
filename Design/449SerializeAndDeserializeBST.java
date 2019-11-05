@@ -1,8 +1,9 @@
         //Solution based on leetcode's 1ms sample
-        //1ms sample used chars to store numbers, but that was a limitation
-        //so i implemented it with an array of integers, but the runtime goes high
-        //So the max value will be 65535, more than that and the program fails
-        //but not for this case thou, anyway you would only need to replace it
+        //Most of this code is trivial, including serialize process and getArray
+        //the interesing part is deserialize-constructHelper()
+        //First we serialize it using  an PREORDER, only preorder works because
+        //we know that the first element will always be root, then for the leafs
+        //we can use the binary search rules to know where to put a node
 public class Codec {
 
     // Encodes a tree to a single string.
@@ -30,6 +31,12 @@ public class Codec {
     }
     
     //(Do not use class member/global/static variables to store states)
+    //first element will always be root, to distribute nodes simple rules
+    //when going LEFT, all nodes should be smaller so root will be the max value
+    //when going RIGHT, all nodes should be bigger so root will be the min value
+    //if a node is smaller than low or bigger than high it means that it doesnt belong
+    //to this node, should go somewhere else, this property is enforced by BST structure
+    //
     private TreeNode constructTree(int[] nums, int[] idx, int low, int high) {
         if(idx[0]==nums.length) return null;
         int value = (int)nums[idx[0]];
@@ -66,9 +73,13 @@ public class Codec {
 
 /*
     USING CHAR FOR DESERIALIZATION
+    
     //Runtime goes down to 1ms
     //But the max value of a node will be 65535, more than that and the program fails
     //but not for the test cases of leetcode
+    //1ms sample used chars to store numbers, but that was a limitation
+    //so I implemented it with an array of integers, but the runtime goes high
+    //So the max value will be 65535, more than that and the program fails
 
     public TreeNode deserialize(String data) {
         if(data==null || data.length()==0) return null;
