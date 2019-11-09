@@ -99,3 +99,57 @@ public class Codec {
         return root;
     }
 */
+
+        //My own solution
+        //Average runtime at 9ms worse than 43.33%
+        //Good memory better than 79.79% 
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root==null) return "";
+        StringBuilder res=new StringBuilder("");
+        res.append(root.val+",");
+        serializeHelper(res,root.left);
+        serializeHelper(res,root.right);
+        //System.out.println(res.toString());
+        return res.toString();
+    }
+    
+    public void serializeHelper(StringBuilder res,TreeNode root){
+        if(root==null) return;
+        res.append(root.val+",");
+        serializeHelper(res,root.left);
+        serializeHelper(res,root.right);
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if(data.length()==0) return null;
+        String[] datas=data.split(",");
+        int len=datas.length;
+        ArrayList<Integer> numbers=new ArrayList<>();
+        for(int i=0;i<len;i++){
+            numbers.add(Integer.parseInt(datas[i]));
+        }
+        return deserializeHelper(numbers,Integer.MIN_VALUE,Integer.MAX_VALUE);
+    }
+    
+    private TreeNode deserializeHelper(ArrayList<Integer> numbers, int min, int max){
+        if(numbers.isEmpty()) {
+            //System.out.println(numbers[index]+" tobig ");
+            return null;
+        }
+        //System.out.println(numbers[index]+" is added ");
+        if(numbers.get(0)<min || numbers.get(0)>max) {
+            return null;
+        }
+        TreeNode res=new TreeNode(numbers.get(0));
+        numbers.remove(0);
+        
+        res.left=deserializeHelper(numbers,min,res.val);
+        res.right=deserializeHelper(numbers,res.val,max);
+        
+        return res;
+    }
+}
