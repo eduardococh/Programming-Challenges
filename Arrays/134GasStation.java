@@ -35,3 +35,23 @@ class Solution {
         return startingIL;
     }
 }
+
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int len=gas.length;
+        int diff[]=new int[len];
+        int tgas=0,tcost=0;
+        int currentStreak=0;
+        int startIndex=0;
+        for(int i=0;i<len;i++){
+            currentStreak=(currentStreak+gas[i]-cost[i]);
+            //System.out.println(currentStreak);
+            if(currentStreak<0){
+                currentStreak=0;
+                startIndex=i+1;
+            } 
+        }
+        if(startIndex==len+1) return -1;
+        return startIndex;
+    }
+}
