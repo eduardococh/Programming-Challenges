@@ -11,7 +11,6 @@ class Solution {
     int width;
     int height;
     
-    
     public List<String> findWords(char[][] board, String[] words) {
         List<String> result=new ArrayList<String>();
         width=board.length;
@@ -155,7 +154,12 @@ class Solution {
 }
 
 
-
+        //My second try at this problem
+        //It is an amazing solution in all BUT a terribly simple mistake that I had
+        //Amazing runtime 9ms better than 98.91% //WRONG  O(M*N*L) M and N are rows and columns and
+                                                //Correct O(M*N^L-1)
+        //L is the length of the longest word
+        //Bad memory better than only  17.78%
 class Solution {
     
     private class Trie{
@@ -173,13 +177,11 @@ class Solution {
         Trie myTrie=new Trie();
         for(String word:words){
             addToTrie(myTrie,word);
-            //goTrie(myTrie,word);
         }
         int rows=board.length;
         int columns=board[0].length;
         for(int i=0;i<rows;i++){
             for(int j=0;j<columns;j++){
-                //System.out.println("start");
                 processChar(i,j,res,myTrie,board);
             }
         }
@@ -187,48 +189,34 @@ class Solution {
     }
     
     public void processChar(int i,int j,List<String> res,Trie myTrie,char[][] board){
-        //System.out.println("processing "+board[i][j]);
-        if(board[i][j]==' ') return;
-        if(myTrie.letters[board[i][j]-'a']!=null){
-            //System.out.println(j+" "+i+"it exists! "+myTrie.word);
-            /*for(int k=0;k<26;k++){
-                if(myTrie.letters[k]!=null){
-                    System.out.println((char)('a'+k)+" this modafaka "+myTrie.word);
-                }
-            }*/
-            if(myTrie.word!=null && !res.contains(myTrie.word)){
-                //System.out.println("adding worddddd");
-                res.add(myTrie.word);
+        char car=board[i][j];
+        if(car==' ') return;
+        //SHOULD HAVE USED THIS VARIABLE
+        //Trie next=myTrie.letters[car-'a'] and here use next instead of trie.letters
+        if(myTrie.letters[car-'a']!=null){
+            //here was MY stupid mistake, I was comparing to current trie instead of next trie
+            //this mistake was due to bad design, i should not have 'current' and 'next' trie
+            //only current trie, having those two favored confusion
+            //if(myTrie.word!=null && !res.contains(myTrie.word)){
+            
+            //this is the correct implementation using the 'next' trie
+            if(myTrie.letters[car-'a'].word!=null && !res.contains(myTrie.letters[car-'a'].word)){
+                res.add(myTrie.letters[car-'a'].word);
             }
+            board[i][j]=' ';
             if(i-1>=0){
-                //System.out.println("adding word");
-                char aux=board[i][j];
-                board[i][j]=' ';
-                processChar(i-1,j,res,myTrie.letters[aux-'a'],board);
-                board[i][j]=aux;
+                processChar(i-1,j,res,myTrie.letters[car-'a'],board);
             }
             if(j-1>=0){
-                //System.out.println("adding word");
-                char aux=board[i][j];
-                board[i][j]=' ';
-                processChar(i,j-1,res,myTrie.letters[aux-'a'],board);
-                board[i][j]=aux;
+                processChar(i,j-1,res,myTrie.letters[car-'a'],board);
             }
             if(i+1<board.length){
-                //System.out.println("adding word");
-                char aux=board[i][j];
-                board[i][j]=' ';
-                processChar(i+1,j,res,myTrie.letters[aux-'a'],board);
-                board[i][j]=aux;
+                processChar(i+1,j,res,myTrie.letters[car-'a'],board);
             }
             if(j+1<board[0].length){
-                //System.out.println("adding word");
-                char aux=board[i][j];
-                board[i][j]=' ';
-                processChar(i,j+1,res,myTrie.letters[aux-'a'],board);
-                board[i][j]=aux;
-                
+                processChar(i,j+1,res,myTrie.letters[car-'a'],board);
             }
+            board[i][j]=car;
         }
     }
     
@@ -239,20 +227,8 @@ class Solution {
             if(iterator.letters[word.charAt(i)-'a']==null){
                 iterator.letters[word.charAt(i)-'a']=new Trie();    
             }
-            //System.out.println("appending... "+word.charAt(i));
-            if(i==len-1) iterator.word=word;
             iterator=iterator.letters[word.charAt(i)-'a'];
         }
-        //System.out.println("adding "+word);
-        //iterator.word=myWord;
+        iterator.word=word;
     }
-    
-    /*public void goTrie(Trie myTrie,String word){
-        int len=word.length();
-        Trie iterator=myTrie;
-        for(int i=0;i<len;i++){
-            System.out.println("traveling... "+word.charAt(i)+" has "+iterator.word);
-            iterator=iterator.letters[word.charAt(i)-'a'];
-        }
-    }*/
 }
