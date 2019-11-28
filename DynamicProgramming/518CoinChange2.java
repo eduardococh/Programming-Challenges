@@ -11,6 +11,14 @@ class Solution {
     }
     
     public void changeHel(int amount,int[] coins){
-        
+        if(amount==0){
+            ArrayList<Integer> tuple=new ArrayList<Integer>();
+            for(int coin:nCoins){
+                tuple.add(coin);
+            }
+            if(!res.contains(tuple)) res.add(tuple);
+        }
+        if(amount<0) return;
+        for(int i=0
     }
 }
