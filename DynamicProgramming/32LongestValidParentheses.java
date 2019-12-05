@@ -1,5 +1,7 @@
+        //My solution using stack and array
         //Average runtime of 5ms better than 54.35% 
         //Good memory of 37.3mb better than 96.08%
+        //A good solution, simple to implement and understand 
 class Solution {
     public int longestValidParentheses(String s) {
         int res=0;
@@ -36,6 +38,8 @@ class Solution {
         //DP solution
         //Amazing runtime of 1ms better than 100% O(N)
         //Good memory of 37.5 less than 88.24% O(N)
+        //When you find a closing parentheses check if there's an inmediate opening parentheses
+        //if yes add two to your position, else check for the next element in dp 
 public class Solution {
     public int longestValidParentheses(String s) {
         int maxans = 0;
