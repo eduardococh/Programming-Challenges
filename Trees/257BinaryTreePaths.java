@@ -80,7 +80,7 @@ class Solution {
 
     public void dfs(TreeNode root, List<String> res, StringBuilder sb){
         if (root==null) return;
-        int temp = sb.length();
+        int temp = sb.length();//very clever, take measure of length here, so your code for deletion is easy
         if (root.left==null && root.right==null){
             sb.append( root.val );
             res.add( sb.toString() );
