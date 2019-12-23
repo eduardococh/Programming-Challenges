@@ -1,6 +1,7 @@
-
+        //My recursive solution
+        //Terrible runtime of 2ms
+        //Terrible memory 38.3mb better than only 7%
 class Solution {
-		//My recursive solution, 38.3mb better than only 7%, 2ms
     public TreeNode sortedArrayToBST(int[] nums) {
         int middle=nums.length,levelSize=1;
         TreeNode result=null;
@@ -17,10 +18,8 @@ class Solution {
             return null;
         }else if(nums.length==1){
             result=addToTree(nums[0],result);
-            //System.out.println("agrego uno "+nums[0]);
         }else{
             int middle=nums.length/2;      
-            //System.out.println("agrego mas "+nums[middle]);
             result=addToTree(nums[middle],result);
             TreeNode leftTree=prtitioner(result,Arrays.copyOfRange(nums,0, middle));
             if(leftTree!=null){
@@ -53,5 +52,28 @@ class Solution {
             }
         }
         return result;
+    }
+}
+
+
+        //My second approach
+        //WAY better than first time
+        //Big improvement is to use index instead of creating a new array
+        //for every recursion
+        //Amazing runtime of 0ms better than 100% O(N)
+        //Amazing memory better than 60.83% O(Log N)
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums==null || nums.length==0) return null;
+        return bstCreator(nums,0,nums.length-1);
+    }
+    
+    public TreeNode bstCreator(int[] nums, int low, int high){
+        if(low>high) return null;
+        int mid=(low+high)/2;
+        TreeNode res=new TreeNode(nums[mid]);
+        res.left=bstCreator(nums,low,mid-1);
+        res.right=bstCreator(nums,mid+1,high);
+        return res;
     }
 }
