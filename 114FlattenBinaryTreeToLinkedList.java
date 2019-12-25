@@ -1,9 +1,9 @@
 		//My solution
-		//Average runtime of 1ms better than 45% O(N*N)¿? (where n is the number of nodes)
-		//the extra n is because of the while operation to search for the tip¿?
+		//Average runtime of 1ms better than 45% O(N*N)ï¿½? (where n is the number of nodes)
+		//the extra n is because of the while operation to search for the tipï¿½?
 		//Average memory better than 57.04%
 		//Big flaw of my solution is my search for rightmost, which decreases performance
-		//and potentially adds anoter ¿*n? to time complexity
+		//and potentially adds anoter ï¿½*n? to time complexity
 class Solution {
     public void flatten(TreeNode root) {
         if(root==null) return;
@@ -66,5 +66,32 @@ class Solution {
         root.right = root.left;
         root.left = null;
         return flattenHelper(tail.right);
+    }
+}
+        //My own solution following same approach
+        //It actually ran in 0ms when I ran it
+class Solution {
+    public void flatten(TreeNode root) {
+         if(root==null) return;
+        flattenHelper(root);
+    }
+    
+    private TreeNode flattenHelper(TreeNode root) {
+         if(root.left==null && root.right==null){
+             return root;
+         }else if(root.right==null){
+             root.right=root.left;
+             root.left=null;
+             return flattenHelper(root.right);
+         }else if(root.left==null){
+             return flattenHelper(root.right);
+         }else{
+             TreeNode aux=root.right;
+             root.right=root.left;
+             root.left=null;
+             TreeNode tail=flattenHelper(root.right);
+             tail.right=aux;
+             return flattenHelper(aux);
+         }
     }
 }
