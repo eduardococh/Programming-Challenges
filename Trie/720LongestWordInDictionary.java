@@ -35,3 +35,36 @@ class Solution {
         return ans;
     }
 }
+
+
+class Solution {
+    public String longestWord(String[] words) {
+        Arrays.sort(words);
+        HashSet<String> prefixes=new HashSet<String>();
+        String result="";
+        for(String word:words){
+            if(word.length()==1){
+                prefixes.add(word);
+                if(word.length()>result.length()){
+                    result=word;    
+                }
+                continue;
+            }
+            int i;
+            for(i=0;i<word.length()-1;i++){
+                //System.out.println(word.substring(0,i+1));
+                String prefix=word.substring(0,i+1);
+                if(!prefixes.contains(prefix)){
+                    break;
+                }
+            }
+            prefixes.add(word);
+            if(i==word.length()-1){
+                if(word.length()>result.length()){
+                    result=word;
+                }
+            }
+        }
+        return result;
+    }
+}
