@@ -1,19 +1,9 @@
-class Solution {
-    public String longestWord(String[] words) {
-        ArrayList<String> candidates=new ArrayList<String>();
-        HashMap<String,Boolean> dp=new HashMap<String,Boolean>();
-        for(String word:words){
-            if(word.length==1){
-                dp.put(word,true);
-            }else{
-                
-            }
-        }
-        return "";
-    }
-}
-
-
+        //Leetcode's brute force
+        //Good runtime of 6ms better than 94.37% (complex bigO)
+        //Bad memory better than only 6.25% (complex bigO)
+        //Simple and genius approach, put them all in a set and then compare only 
+        //words which are larger and candidates to be new result, that way you avoid a lot of processing
+        //
 class Solution {
     public String longestWord(String[] words) {
         String ans = "";
@@ -36,7 +26,10 @@ class Solution {
     }
 }
 
-
+        //My initial brute force solution
+        //Terrible runtime of 37ms better than only 7% O(MN)??
+        //Terrible memory of 47.8mb better than only 6.25%  O(MN)??
+        //Not very useful,
 class Solution {
     public String longestWord(String[] words) {
         Arrays.sort(words);
@@ -52,7 +45,6 @@ class Solution {
             }
             int i;
             for(i=0;i<word.length()-1;i++){
-                //System.out.println(word.substring(0,i+1));
                 String prefix=word.substring(0,i+1);
                 if(!prefixes.contains(prefix)){
                     break;
