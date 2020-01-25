@@ -5,6 +5,7 @@
         //until we do this 32 times
         //Runtime of 1ms better than 34%? O(N)
         //Memory better than 100% O(1)
+        //we start with one and do it 31 times max since it is a signed integer
 class Solution {
     public int findComplement(int num) {
         int x=1,i=1;
