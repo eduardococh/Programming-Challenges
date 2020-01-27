@@ -32,3 +32,29 @@ class Solution {
         return result;
     }
 }
+
+
+        //Same approach as me but more efficient
+        //Good runtime of 7ms faster than 91.36%
+        //Bad memory of 42mb better than 19.35%
+        //usage of to array method is a noticeable change
+        //subtle changes
+class Solution {
+    public String[] findRestaurant(String[] list1, String[] list2) {
+        int n = list1.length, m = list2.length;
+        Map<String, Integer> map1 = new HashMap<>();
+        for (int i = 0; i < list1.length; i++){
+            map1.put(list1[i], i);
+        }
+        int min = list1.length + list2.length;
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < list2.length; i++){
+            String str = list2[i];
+            int sum = i + map1.getOrDefault(str, n + m);
+            if (sum < min) result.clear();
+            min = Math.min(sum, min);
+            if (sum == min) result.add(str);
+        }
+        return result.toArray(new String[0]);
+    }
+}
