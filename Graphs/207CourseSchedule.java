@@ -145,6 +145,7 @@ class Solution {
 
     //Detect cycles
     public boolean dfs(int i, ArrayList<ArrayList<Integer>> graph, int[] visited) {
+        
         if (visited[i] == 1) return true;
         if (visited[i] == 2) return false;
 
@@ -158,5 +159,58 @@ class Solution {
         visited[i] = 2;
         
         return false;
+    }
+}
+
+
+        //My solution using custom graph class
+        //Good runtime at 3ms better than 91.39% O(N)
+        //Amazing memory better than 98.46% O(N)
+class Solution {
+    
+    class Graph{
+        int value;
+        ArrayList<Graph> prereq;
+        boolean valid;
+        
+        public Graph(int value){
+            this.value=value;
+            prereq=new ArrayList<Graph>();
+            valid=false;
+        }
+    }
+    
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList<Graph> graph=createGraph(numCourses,prerequisites);
+        for(int i=0;i<numCourses;i++){
+            if(!checkGraph(i,new HashSet<Integer>(),graph)) return false;
+        }
+        return true;        
+    }
+    
+    public boolean checkGraph(int nodeNum,Set<Integer> visited,ArrayList<Graph> graph){
+        Graph node=graph.get(nodeNum);        
+        if(node.valid==true) return true;
+        visited.add(nodeNum);
+        int preNum=node.prereq.size();
+        for(int i=0;i<preNum;i++){
+            if(visited.contains(node.prereq.get(i).value)) return false;
+            if(!checkGraph(node.prereq.get(i).value,visited,graph)) return false;
+        }
+        visited.remove(nodeNum);
+        node.valid=true;
+        return true;
+    }
+    
+    private ArrayList<Graph> createGraph(int numCourses, int[][] prerequisites){
+        ArrayList<Graph> graph=new ArrayList<>();
+        for(int i=0;i<numCourses;i++){
+            graph.add(new Graph(i));
+        }
+        final int len=prerequisites.length;
+        for(int i=0;i<len;i++){
+            graph.get(prerequisites[i][0]).prereq.add(graph.get(prerequisites[i][1]));
+        }
+        return graph;
     }
 }
