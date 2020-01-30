@@ -1,65 +1,4 @@
         //This problem basically comes down to finding cycles in a graph
-       
-        //My solution
-        //It works and is not that complex
-        //The key to the code is the usage of bloquedCourses hashMap
-        //If a course has prerequisites it will appear, otherwise it will not appear
-        //So we now check through every course in bloquedCourses and start solving their
-        //Required courses until all courses are removed, meaning they can be done or until 
-        //we reach a cycle, detected by the traversedCourses list
-        //Bad runtime of 71ms better than only 11.99% O(N) where N is the number of prerequisites
-        //first process al N prerequisites and then in classSolver we eliminate requirements one by one
-        //so we visit them only once, if we visit one twice we break
-        //Bad memory of 53.1mb better than 27.69% O(N) where N is the number of prerequisites
-        //Since we store at most N prerequisites in the hashMap sets
-        //I could be wrong in these complexities ?¿
-
-        //Another implementation with maps checks for cycles while building the map, thus avoiding
-        //the bloqCoursesList and two iterations, clever way
-class Solution {
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
-        HashMap<Integer,HashSet<Integer>> bloquedCourses=new HashMap<>();
-        ArrayList<Integer> bloqCoursesList=new ArrayList<>();
-        for(int i=0;i<prerequisites.length;i++){
-            if(bloquedCourses.containsKey(prerequisites[i][0])){
-                HashSet<Integer> mySet=bloquedCourses.get(prerequisites[i][0]);
-                mySet.add(prerequisites[i][1]);
-                bloquedCourses.put(prerequisites[i][0],mySet);
-            }else{
-                bloquedCourses.put(prerequisites[i][0],new HashSet<>(Arrays.asList(prerequisites[i][1])));
-                bloqCoursesList.add(prerequisites[i][0]);
-            }
-        }
-        while(!bloqCoursesList.isEmpty()){
-            int currentCourse=bloqCoursesList.get(0);
-            if(!classSolver(currentCourse,new ArrayList<Integer>(),bloquedCourses,bloqCoursesList)) return false;
-        }
-        return true;
-    }
-    
-    private boolean classSolver(int currentCourse,ArrayList<Integer> traversedCourses,HashMap<Integer,HashSet<Integer>> bloquedCourses,ArrayList<Integer> bloqCoursesList){
-        //System.out.println("WE enter forerr "+currentCourse);
-        if(traversedCourses.contains(currentCourse)) return false;
-        traversedCourses.add(currentCourse);
-        //System.out.println("WE enter for "+currentCourse);
-        HashSet<Integer> prereq=bloquedCourses.get(currentCourse);
-        //System.out.println("onbj "+prereq);
-        for(Integer num:prereq){
-            if(bloquedCourses.containsKey(num)){//If this num has a prerequisite
-                //System.out.println("testing "+num);
-                if(!classSolver(num,traversedCourses,bloquedCourses,bloqCoursesList)){
-                    return false;
-                }
-                //traversedCourses.remove(Integer.valueOf(num));
-            }//else no prerequisite for this num
-        }
-        bloquedCourses.remove(currentCourse);
-        bloqCoursesList.remove(Integer.valueOf(currentCourse));
-        return true;
-    }
-}
-
-
         //Very simple solution, no big data structure, only arrays
         //From leetcode's 1ms samples
         //We have array COUNT that is the most important in this program, is like my bloquedCourses
@@ -143,11 +82,13 @@ class Solution {
         return true;
     }
 
-    //Detect cycles
+    //Detect cycles, we return true if a cycle is found
     public boolean dfs(int i, ArrayList<ArrayList<Integer>> graph, int[] visited) {
         
-        if (visited[i] == 1) return true;
-        if (visited[i] == 2) return false;
+                                          //0 is the default value, and it means that a node is yet to be visited
+        if (visited[i] == 1) return true; //1 means that we have visited a node
+        if (visited[i] == 2) return false;//2 means that we visited a node and it is a valid
+                                          //or that all prerequisites are filled
 
         visited[i] = 1;
         for (int next : graph.get(i)) {
@@ -166,6 +107,7 @@ class Solution {
         //My solution using custom graph class
         //Good runtime at 3ms better than 91.39% O(N)
         //Amazing memory better than 98.46% O(N)
+        //
 class Solution {
     
     class Graph{
@@ -212,5 +154,65 @@ class Solution {
             graph.get(prerequisites[i][0]).prereq.add(graph.get(prerequisites[i][1]));
         }
         return graph;
+    }
+}
+
+       
+        //My first solution, not worth checking
+        //It works and is not that complex
+        //The key to the code is the usage of bloquedCourses hashMap
+        //If a course has prerequisites it will appear, otherwise it will not appear
+        //So we now check through every course in bloquedCourses and start solving their
+        //Required courses until all courses are removed, meaning they can be done or until 
+        //we reach a cycle, detected by the traversedCourses list
+        //Bad runtime of 71ms better than only 11.99% O(N) where N is the number of prerequisites
+        //first process al N prerequisites and then in classSolver we eliminate requirements one by one
+        //so we visit them only once, if we visit one twice we break
+        //Bad memory of 53.1mb better than 27.69% O(N) where N is the number of prerequisites
+        //Since we store at most N prerequisites in the hashMap sets
+        //I could be wrong in these complexities ?¿
+
+        //Another implementation with maps checks for cycles while building the map, thus avoiding
+        //the bloqCoursesList and two iterations, clever way
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap<Integer,HashSet<Integer>> bloquedCourses=new HashMap<>();
+        ArrayList<Integer> bloqCoursesList=new ArrayList<>();
+        for(int i=0;i<prerequisites.length;i++){
+            if(bloquedCourses.containsKey(prerequisites[i][0])){
+                HashSet<Integer> mySet=bloquedCourses.get(prerequisites[i][0]);
+                mySet.add(prerequisites[i][1]);
+                bloquedCourses.put(prerequisites[i][0],mySet);
+            }else{
+                bloquedCourses.put(prerequisites[i][0],new HashSet<>(Arrays.asList(prerequisites[i][1])));
+                bloqCoursesList.add(prerequisites[i][0]);
+            }
+        }
+        while(!bloqCoursesList.isEmpty()){
+            int currentCourse=bloqCoursesList.get(0);
+            if(!classSolver(currentCourse,new ArrayList<Integer>(),bloquedCourses,bloqCoursesList)) return false;
+        }
+        return true;
+    }
+    
+    private boolean classSolver(int currentCourse,ArrayList<Integer> traversedCourses,HashMap<Integer,HashSet<Integer>> bloquedCourses,ArrayList<Integer> bloqCoursesList){
+        //System.out.println("WE enter forerr "+currentCourse);
+        if(traversedCourses.contains(currentCourse)) return false;
+        traversedCourses.add(currentCourse);
+        //System.out.println("WE enter for "+currentCourse);
+        HashSet<Integer> prereq=bloquedCourses.get(currentCourse);
+        //System.out.println("onbj "+prereq);
+        for(Integer num:prereq){
+            if(bloquedCourses.containsKey(num)){//If this num has a prerequisite
+                //System.out.println("testing "+num);
+                if(!classSolver(num,traversedCourses,bloquedCourses,bloqCoursesList)){
+                    return false;
+                }
+                //traversedCourses.remove(Integer.valueOf(num));
+            }//else no prerequisite for this num
+        }
+        bloquedCourses.remove(currentCourse);
+        bloqCoursesList.remove(Integer.valueOf(currentCourse));
+        return true;
     }
 }
