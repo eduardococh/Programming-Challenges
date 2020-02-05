@@ -44,6 +44,7 @@ class Solution {
         //Brilliant logic, basically if im p or q I return myself, otherwise if left and right are
         //not null it means im the LCA, and for all else nodes either left or right will be null
         //meaning you return only p, q or the LCA
+        //if I'm p and q is my children I don't care, I will return myself since no other node will do
         //Amazing runtime of 5ms better than 100%
         //Bad memory less than 5%
 class Solution {
@@ -62,8 +63,11 @@ class Solution {
         return left == null ? right : left;
     }
 }
+
+
         //Same approach as above but with my own logic
         //Same amazing runtime and memory
+        //
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if(root==null) return null;
