@@ -17,7 +17,7 @@ class BSTIterator {
 
     public BSTIterator(TreeNode root) {
         parents=new Stack<TreeNode>();
-        current=root;
+        current=new TreeNode(-1);
         smallest=-1;
         biggest=getBiggest(root);
         this.root=root;
@@ -25,6 +25,7 @@ class BSTIterator {
     
     /** @return the next smallest number */
     public int next() {
+        if(current.val==-1) current=root;
         return exploreTree(current);
     }
     
@@ -48,7 +49,6 @@ class BSTIterator {
     
     /** @return whether we have a next smallest number */
     public boolean hasNext() {
-        if(root.left==null && root.right==null) return false;
         return current.val==biggest?false:true;
     }
     
