@@ -1,3 +1,7 @@
+        //My solution
+        //Amazing runtime better than 99.87% O(n)
+        //Terrible memory better than 7% but this 
+        //Same approach as leetcode linear approach
 class Solution {
     public int shortestDistance(String[] words, String word1, String word2) {
         final int len=words.length;
