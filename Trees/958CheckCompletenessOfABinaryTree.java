@@ -1,12 +1,4 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
+
 class Solution {
     public boolean isCompleteTree(TreeNode root) {
         int height=getHeight(root);
@@ -14,7 +6,8 @@ class Solution {
     }
         
     public int checkTotal(TreeNode node, int height){
-        if(checkTotal(node.left,height-1)=
+        if(checkTotal(node.left,height-1)=0){
+            
+        }
     }
-
 }
