@@ -1,3 +1,34 @@
+        /*Simple and elegant solution by yavinci
+          it comes down to the formula
+          `num1[i] * num2[j]` will be placed at indices `[i + j` , `i + j + 1]`
+                                                            p1         p2
+           in every multiplication we multiply i*j, then add whatever p2 might have
+           and then save every digit in their place
+           Indices start with 0 at left for numbers and result
+           Good runtime of 3ms better than 89.94% O(M*N)
+           Bad memory better than only 16% O(M+N)
+        */
+    public String multiply(String num1, String num2) {
+        int m = num1.length(), n = num2.length();
+        int[] pos = new int[m + n];
+    
+        for(int i = m - 1; i >= 0; i--) {
+            for(int j = n - 1; j >= 0; j--) {
+                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0'); 
+                int p1 = i + j, p2 = i + j + 1;
+                int sum = mul + pos[p2];
+
+                pos[p1] += sum / 10;
+                pos[p2] = (sum) % 10;
+            }
+        }  
+        
+        StringBuilder sb = new StringBuilder();
+        for(int p : pos) if(!(sb.length() == 0 && p == 0)) sb.append(p);
+        return sb.length() == 0 ? "0" : sb.toString();
+    }       
+      
+      
         //My solution
         //Bad runtime at 23ms O(N*M) better than only 10.85%
         //Good memory better than 86.67%
@@ -66,33 +97,5 @@ class Solution {
             return "0";
         }
         return result.toString();
-    }
-}
-
-class Solution {
-     public String multiply(String num1, String num2) {
-        int len1 = num1.length(), len2 = num2.length();
-        int[] result = new int[len1 + len2]; 
-        for(int i=num1.length()-1; i >= 0; i--) {
-            for(int j=num2.length()-1; j >= 0; j--) {
-                //lead part of number
-                int p1 = i + j;
-                //carry + remainder
-                int p2 = i + j + 1;
-                //n1 * n2 + carry
-                int num = (num1.charAt(i) - '0') * (num2.charAt(j) - '0') + result[p2];
-                //put carry for next step
-                result[p1] += num / 10;
-                result[p2] = num % 10;
-            }
-        }
-         StringBuilder fResult = new StringBuilder();
-         for (int r: result) {
-             //lead 0
-             if (r == 0 && fResult.length() == 0)
-                continue;
-             fResult.append(r);
-         }
-         return fResult.length() == 0 ? "0" : fResult.toString();
     }
 }
