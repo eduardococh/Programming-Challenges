@@ -1,5 +1,7 @@
         //My solution using recursion and a map
         //Amazing runtime 1ms better than 100% O(N)
+        //On march 24 I sent a similar solution and now it always runs in 26ms or more
+        //Looks like test cases changed
         //Good memory better than 80% O(N)
         //Simple solution a lot like cloning a tree
 class Solution {
