@@ -38,6 +38,35 @@ class Solution {
     }
 }
 
+        //3ms solution by leetcode samples
+        //Solutions using an array are the fastest ones
+        //Same approach as mine but elegant
+class Solution {
+   public static List<Integer> findAnagrams(String s, String p) {
+        List<Integer> res = new ArrayList<>();
+        int S = s.length(), P = p.length();
+       if (P == 0 || S == 0 || S < P) return res;
+        int[] pa = new int[26];
+        int[] wa = new int[26];
+        for (int i = 0; i < P; i++) {
+            pa[p.charAt(i) - 'a']++;
+            wa[s.charAt(i) - 'a']++;
+        }
+        // System.out.println(Arrays.toString(pa));
+        // System.out.println(Arrays.toString(wa));
+        for (int i = 0; i <= S - P; i++) {
+            int j;
+            for (j = 0; j < 26; j++)
+                if (wa[j] != pa[j]) break;
+            if (j == 26) res.add(i);
+            if (i == S - P) break;
+            wa[s.charAt(i) - 'a']--;
+            wa[s.charAt(i + P) - 'a']++;
+        }
+        return res;
+    }
+}
+
     /*
         My complex solution that might work with more tought into it
     */
@@ -93,3 +122,61 @@ class Solution {
         System.out.println();
     }
 }
+
+
+        //HashMap solution by leetcode
+        //Terrible runtime of 69ms better than only 18.93% O(N)
+        //Bad memory
+        //Exact same as array approach, but WAY SLOWER
+        //Didn't know that you can directly compare hashMaps with equal
+        //Interesting
+class Solution {
+  public List<Integer> findAnagrams(String s, String p) {
+    int ns = s.length(), np = p.length();
+    if (ns < np) return new ArrayList();
+
+    Map<Character, Integer> pCount = new HashMap();
+    Map<Character, Integer> sCount = new HashMap();
+    // build reference hashmap using string p
+    for (char ch : p.toCharArray()) {
+      if (pCount.containsKey(ch)) {
+        pCount.put(ch, pCount.get(ch) + 1);
+      }
+      else {
+        pCount.put(ch, 1);
+      }
+    }
+
+    List<Integer> output = new ArrayList();
+    // sliding window on the string s
+    for (int i = 0; i < ns; ++i) {
+      // add one more letter 
+      // on the right side of the window
+      char ch = s.charAt(i);
+      if (sCount.containsKey(ch)) {
+        sCount.put(ch, sCount.get(ch) + 1);
+      }
+      else {
+        sCount.put(ch, 1);
+      }
+      // remove one letter 
+      // from the left side of the window
+      if (i >= np) {
+        ch = s.charAt(i - np);
+        if (sCount.get(ch) == 1) {
+          sCount.remove(ch);
+        }
+        else {
+          sCount.put(ch, sCount.get(ch) - 1);
+        }
+      }
+      // compare hashmap in the sliding window
+      // with the reference hashmap
+      if (pCount.equals(sCount)) {
+        output.add(i - np + 1);
+      }
+    }
+    return output;
+  }
+}
+        
