@@ -30,6 +30,29 @@ class Solution {
     }
 }
 
+        //My solution using "constant memory" (they mention that the output array does not count
+        //but, in real scenario this would count as O(N) memory)
+        //Amazing runtime of 0ms better than 100% O(N)
+        //Bad memory better than only 5%
+        //A two pass solution
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        final int len=nums.length;
+        int[] result=new int[len];
+        result[0]=nums[0];
+        for(int i=1;i<len-1;i++){
+            result[i]=result[i-1]*nums[i];
+        }
+        result[len-1]=result[len-2];
+        for(int i=len-2;i>0;i--){
+            result[i]=nums[i+1]*result[i-1];
+            nums[i]=nums[i]*nums[i+1];
+        }
+        result[0]=nums[1];
+        return result;
+    }
+}
+
 
         //Leetcode's solution using constant space (there's a solution using left and right
         //arrays, but it's not worth covering)
