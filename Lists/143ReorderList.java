@@ -64,3 +64,46 @@ class Solution {
         nodes.get(((int)Math.ceil(cont/2)+(cont%2==0?0:1))).next=null;
     }
 }
+
+
+class Solution {
+    public void reorderList(ListNode head) {
+        if(head==null || head.next==null) return;
+        //first, find middle
+        ListNode slow=head,fast=head,preSlow=null;
+        while(fast!=null && fast.next!=null){
+            preSlow=slow;
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        //slow is middle, revert all middle and after
+        ListNode pre=slow;
+        ListNode current=slow.next;
+        ListNode next;
+        slow.next=null;
+        if(current!=null){//
+            next=current.next;
+            while(next!=null){
+                current.next=pre;
+                pre=current;
+                current=next;
+                next=next.next;
+            }
+            current.next=pre;
+            preSlow.next=current;
+            
+            //one to one
+            ListNode head1=head,head2=current;
+            System.out.println(head1.val+" "+head2.val);
+            while(head1.next!=null && head2.next!=null){
+                ListNode next1=head1.next,next2=head2.next;
+                if(next1.equals(current)) break;
+                head1.next=head2;
+                head2.next=next1;
+                head1=next1;
+                head2=next2;
+            }
+            head1.next=head2;
+        }//else, the list is length one or two
+    }
+}
