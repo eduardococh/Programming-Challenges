@@ -17,16 +17,22 @@ class Solution {
     }
 }
 
+        //Amazing solution from leetcode's 0ms samples
+        //Amazing runtime of 0ms better than 100% O(N)
+        //Simple, for every non zero you find move it to the front
+        //At the end fill with zeroes
 class Solution {
-		//Best memory from leetcode sample, 100% runtime and  94% memory
-		//This was best memory in leetcode samples but it was not that good in my run
-		//Get all numbers different than 0 to first places and then fill rest with zeroes
     public void moveZeroes(int[] nums) {
-        int index = 0;
-        for(int n: nums){
-            if(n != 0) nums[index++] = n;
+        int nonzeroNumIndex = 0;
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] != 0) {
+                nums[nonzeroNumIndex] = nums[i];
+                nonzeroNumIndex++;
+            }
         }
         
-        for(int i = index; i < nums.length; i++) nums[i] = 0;
+        for(int i = nonzeroNumIndex; i < nums.length; i++) {
+            nums[i] = 0;
+        }
     }
 }
