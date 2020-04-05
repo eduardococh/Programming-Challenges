@@ -1,6 +1,10 @@
 public class Solution {
 		//Brute force o(n3) time limit exceded and o(1) memory
 		//"Easy" approach but not optimal at all
+        //Start from every index [0-5]
+        //End in every index plus [1,2,...]
+        //Do the sum from start to end
+        //This is not really the most logical and most would have the second solution   
     public int subarraySum(int[] nums, int k) {
         int count = 0;
         for (int start = 0; start < nums.length; start++) {
@@ -16,28 +20,15 @@ public class Solution {
     }
 }
 
+        //Probably the solution most will come up with, instead of the first solution
+        //Bad runtime of 231ms better than 11.39%O(N^2) (this runtime varies wildy, 231 is the smaller found)
+        //Bad memory better than 5% O(1)
+        //Visually it goes
+        //[4,-5,6,7] (checks 4 subarrays)
+        //  [-5,6,7] (checks 3 subarrays)
+        //     [6,7] (checks 2 subarrays)
+        //       [7] (checks 1 subarray)
 public class Solution {
-		//The key to this one is keeping a cumulative sum, so we dont have to calculate sum for every
-		//Subarray, bringing the complexity to o(n2), memory of o(n) since we store one array n
-    public int subarraySum(int[] nums, int k) {
-        int count = 0;
-        int[] sum = new int[nums.length + 1];
-        sum[0] = 0;
-        for (int i = 1; i <= nums.length; i++)
-            sum[i] = sum[i - 1] + nums[i - 1];
-        for (int start = 0; start < nums.length; start++) {
-            for (int end = start + 1; end <= nums.length; end++) {
-                if (sum[end] - sum[start] == k)
-                    count++;
-            }
-        }
-        return count;
-    }
-}
-
-public class Solution {
-		//The key here is to avoid using a subsum array with a one pass solution, really simple
-		//Checks every subarray in a pattern like inverted pyramid, o(n2) runtime and o(1) memory
     public int subarraySum(int[] nums, int k) {
         int count = 0;
         for (int start = 0; start < nums.length; start++) {
@@ -52,11 +43,12 @@ public class Solution {
     }
 }
 
-public class Solution {
+    
 		//Best solution, understanging this is key, o(n) runtime and o(n) memory
 		//So we store sum in a hashmap, and whenever we repeat a sum we add it to the count
 		//We put the first   map.put(0, 1); so we can consider the number k itself
-		
+        //Good runtime of 13ms better than 43.59% O(N)
+public class Solution {
     public int subarraySum(int[] nums, int k) {
         int count = 0, sum = 0;
         HashMap < Integer, Integer > map = new HashMap < > ();
