@@ -1,3 +1,9 @@
+      //My solution
+      //Simple, sort options using preprocess method
+      //Then just use backtracking to generate all posibilities, which will be sorted 
+      //because of the preprocessing
+      //Good runtime of 3ms better than 87.26% O(P) where P is the total number of pos
+      //
 class Solution {
     public String[] expand(String S) {
         String processed=preprocess(S);
@@ -56,5 +62,24 @@ class Solution {
           i++;
         }
         return result.toString();          
+    }
+}
+
+class Solution {
+    public String[] expand(String S) {
+        String[] array = S.split("\\{|\\}");
+        List<String> res = new ArrayList<>();
+        dfs(res, array, 0, "");
+        return res.toArray(new String[res.size()]);
+    }
+    
+    private void dfs(List<String> res, String[] array, int curr, String word) {
+        if (curr >= array.length) {
+            res.add(word);
+            return;
+        }
+        String[] possibles = array[curr].split(",");
+        Arrays.sort(possibles);
+        for (String s : possibles) dfs(res, array, curr + 1, word + s);
     }
 }
