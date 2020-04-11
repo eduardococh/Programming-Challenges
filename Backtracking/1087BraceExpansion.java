@@ -2,30 +2,37 @@
       //Simple, sort options using preprocess method
       //Then just use backtracking to generate all posibilities, which will be sorted 
       //because of the preprocessing
-      //Good runtime of 3ms better than 87.26% O(P) where P is the total number of pos
-      //
+      //Good runtime of 3ms better than 87.26% O¿(P)? where P is the total number of pos
 class Solution {
     public String[] expand(String S) {
         String processed=preprocess(S);
         List<String> result=new ArrayList<String>();
+        System.out.println(processed);
         createStrings(new StringBuilder(""),result,0,processed);
-        return null;//result.toArray();
+        String res[]=new String[result.size()];
+        int i=0;
+        for(String st:result){
+            res[i++]=st;
+        }
+        return res;
     }
     
     public void createStrings(StringBuilder soFar,List<String> result, int index,String s){
         if(index>s.length()) return;
-        if(index==s.length()) result.add(new String(soFar.toString()));
+        if(index==s.length()){//
+            result.add(new String(soFar.toString()));
+            return;//YOU DID NOT RETURN HERE, IF YOU WANT TO END RETURN
+        }
         if(s.charAt(index)=='{'){
             int nextIndex=index;
-            while(nextIndex < s.length()  && s.charAt(nextIndex)!='}'){
+            while(s.charAt(nextIndex)!='}'){
               nextIndex++; 
             }
-            index++;//skip {
-            while( s.charAt(index) != '}'){
+            while(s.charAt(index) != '}'){
+              index++;//skip comma or open brace
               soFar.append(s.charAt(index));
-              createStrings(soFar,result,nextIndex,s);
+              createStrings(soFar,result,nextIndex+1,s);
               soFar.setLength(soFar.length()-1);
-              index++;//next letter
               index++;//skip comma
             } 
         }else{
@@ -39,23 +46,22 @@ class Solution {
         int i=0,len=s.length();
         StringBuilder result=new StringBuilder("");
         while(i<len){
-          ArrayList<Character> options=new ArrayList<>();
           if(s.charAt(i)=='{'){
             i++;
-            options.add(s.charAt(i));
-            while(i<len && i!='}'){
-              i++;//skip comma
-              options.add(s.charAt(i));
-              i++;
+            int optionsEnd=i+1;
+            while(s.charAt(optionsEnd)!='}'){
+                optionsEnd++;
             }
-            Collections.sort(options);//Arrays sort does not work on array list
+            String[] options=s.substring(i,optionsEnd).split(",");
+            Arrays.sort(options);//Arrays sort does not work on array list
             result.append('{');
-            for(Character car:options){
+            for(String car:options){
                result.append(car);
                result.append(',');
             }
             result.setLength(result.length()-1);
             result.append('}');
+            i=optionsEnd;
           }else{
             result.append(s.charAt(i));
           }
@@ -63,8 +69,14 @@ class Solution {
         }
         return result.toString();          
     }
-}
+}  
 
+
+        //Super simple solution from a leetcode post I can't find again 
+        //Runtime of 5ms better than 59.93% O¿(P)?
+        //Bad memory
+        //Worse runtime than my solution, but not much, by contrast super simple and readable 
+        //compared to my solution
 class Solution {
     public String[] expand(String S) {
         String[] array = S.split("\\{|\\}");
@@ -80,6 +92,8 @@ class Solution {
         }
         String[] possibles = array[curr].split(",");
         Arrays.sort(possibles);
-        for (String s : possibles) dfs(res, array, curr + 1, word + s);
+        for (String s : possibles){
+            dfs(res, array, curr + 1, word + s);    
+        }
     }
 }
