@@ -8,19 +8,18 @@ public class Solution extends Reader4 {
      * @return    The number of actual characters read
      */
     public int read(char[] buf, int n) {
-        char buf4[]=new char[4];
-        int current=read4(buf4);
-        int total=0,pointer=0;
-        while(current>0){
-            total+=current;
-            for(int i=0;i<current;i++){
-                if(pointer==n) return total;
-                buf[pointer++]=buf4[i];
+        char[] tempBuf=new char[4];
+        int readen=read4(tempBuf);
+        int index=0;
+        while(readen>0){
+            for(int i=0;i<readen;i++){
+                if(index==n) return index;
+                buf[index]=tempBuf[i];
+                index++;
             }
-            current=read4(buf4);
-            
+            readen=read4(tempBuf);
         }
-        return total;
+        return index;
     }
 }
 
