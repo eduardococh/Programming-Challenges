@@ -70,3 +70,30 @@ class Solution {
         return dp[coins.length][amount];
     }
 }
+
+
+        //TIME LIMIT EXCEEDED
+        //Left as an example of a backtracking solution
+        //Generate possibilities and if not possible discard
+        //Important to start on index, dont generate posibilities of indexes smaller because you
+        //will generate duplicates
+class Solution {
+    
+    int res;
+    int len;
+    
+    public int change(int amount, int[] coins) {
+        res=0;
+        len=coins.length;
+        backtrackPosibilities(0,amount,coins);
+        return res;
+    }
+    
+    public void backtrackPosibilities(int index,int amount,int[] coins){
+        if(amount<0) return;
+        if(amount==0) res++;
+        for(int i=index;i<len;i++){
+            backtrackPosibilities(i,amount-coins[i],coins);
+        }
+    }
+}
