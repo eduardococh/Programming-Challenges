@@ -1,7 +1,7 @@
+        //Same problem as LC410
         //My linear solution
         //Terrible runtime of 309ms O(W*T) where W is the number of packages and T the difference
         //between the biggest package lenght and the total sum of all the packages
-
 class Solution {
     public int shipWithinDays(int[] weights, int D) {
         int res=weights.length;
@@ -37,6 +37,10 @@ class Solution {
 
 }
 
+        //Binary Search Solution
+        //Average runtime 9ms better than 43.2% O(Log(T)*W)
+        //we execute W at most Log(T) times, where T is total sum of all packages
+        //Good memory better than 76.92%
 class Solution {
     public int shipWithinDays(int[] weights, int D) {
         int res=weights.length;
@@ -48,20 +52,15 @@ class Solution {
         int low=max;
         int high=total;
         while(low<high){//binary searching for the lowest
-            int mid=high-(high-low)/2;
+            int mid=low+(high-low)/2;
             int nDays=getDays(mid,weights,D);
             if(nDays<=D){//right amount of days, could we go lower?
-                int test=getDays(mid-1,weights,D);
-                if(mid>max && getDays(mid-1,weights,D)==Integer.MAX_VALUE){//we're the lowest value possible withing D days
-                    return mid;
-                }else{
-                    high=mid-1;
-                }
+                high=mid;
             }else{//taking too long, increase weight capacity
                 low=mid+1;
             }
         }
-        return res;
+        return low;
     }
     private int getDays(int weight,int w[],int D){
 		int days=1;
