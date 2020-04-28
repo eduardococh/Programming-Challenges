@@ -1,4 +1,30 @@
+        //My solution after 3rd attempt
+        //Despite solving this problem before, still struggle with it
+        //But this solution is simple and logic enough to me, compared to what I got before
+        //Fill from back to front, solving the problem for smaller lenghts and going to bigger lenghts
+        //build solution based on previous solutions
+        //Good runtime 9ms better than 71.8% O(N^2)
+        //Average memory better than 57%
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        final int len=nums.length;
+        int res=0,dp[]=new int[len];
+        for(int i=nums.length-1;i>=0;i--){
+            int biggerSoFar=0;
+            for(int j=i+1;j<len;j++){
+                if(nums[j]>nums[i] && dp[j]>biggerSoFar){
+                    biggerSoFar=dp[j];
+                }
+            }
+            dp[i]=++biggerSoFar;
+            if(dp[i]>res) res=dp[i];
+        }
+        return res;
+    }
+}
+        
         //My solution using dynamic programming at second try
+        //Similar to the one suggested by leetcode, but for me building back to front is more logic
 		//Average runtime at 10ms better than 55.80% O(n^2) bc is around o(n*(n/2)) which is o(n^2)
 		//Good memory at 36mb better than 93.0%
 		//Good solution I think, simpler than my first try
@@ -87,40 +113,5 @@ public class Solution {
         }
         int nottaken = lengthofLIS(nums, prev, curpos + 1);
         return Math.max(taken, nottaken);
-    }
-}
-
-
-        //My solution using dynamic programming
-		//Average runtime at 10ms better than 55.80% O(n^2) bc is around o(n*(n/2)) which is o(n^2)
-		//Average memory at 36mb better than 59.80%
-		//Good solution I think, but not the best or recommended
-class Solution {
-    public int lengthOfLIS(int[] nums) {
-        if(nums.length==0 || nums==null) return 0;
-        
-        int[] sequences=new int[nums.length];
-        for(int i=0;i<nums.length;i++){
-            sequences[i]=1;
-            int currentMax=0;
-            int indexMax=-1;
-            for(int j=i-1;j>=0;j--){
-                if(nums[j]<nums[i] && sequences[j]>currentMax){
-                    currentMax=sequences[j];
-                    indexMax=j;
-                }
-            }
-            if(indexMax>=0){
-                sequences[i]+=sequences[indexMax];
-            }
-        }
-
-        int result=0;
-        for(int i=0;i<nums.length;i++){
-            if(sequences[i]>result){
-                result=sequences[i];
-            }
-        }
-        return result;
     }
 }
