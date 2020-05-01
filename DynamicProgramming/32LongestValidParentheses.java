@@ -35,6 +35,55 @@ class Solution {
 
 }
 
+        //My dp solution
+        //Average runtime of 65.73% O(N)
+        //Bad memory better than only 5% O(N)
+        //Recursively solve for positions, from inward to outward
+class Solution {
+    
+    int dp[];
+    int len;
+    
+    public int longestValidParentheses(String s) {
+        dp=new int[s.length()];
+        len=s.length();
+        for(int i=0;i<len;i++){
+            validateSubstrings(s,dp,i);   
+        }
+        int res=0,soFar=0;
+        for(int status:dp){
+            if(status==1){
+                soFar++;
+                if(soFar>res) res=soFar;
+            }else{
+                soFar=0;
+            }
+        }
+        return res;
+    }
+    
+    private int validateSubstrings(String s,int dp[],int index){
+        if(index>=len) return len+1;
+        if(dp[index]!=0) return len+1;//we already solved this position
+        if(s.charAt(index)==')'){
+            dp[index]=2;//2 means that parenthesis is not valid
+            return len+1;
+        }//else I'm (
+        int searchIndex=index+1;
+        while(searchIndex<len){
+            if(s.charAt(searchIndex)==')'){
+                dp[index]=1;
+                dp[searchIndex]=1;
+                return searchIndex+1;
+            }else{//keep searching
+                searchIndex=validateSubstrings(s,dp,searchIndex);
+            }
+        }
+        dp[index]=2;
+        return len+1;
+    }
+}
+
         //DP solution
         //Amazing runtime of 1ms better than 100% O(N)
         //Good memory of 37.5 less than 88.24% O(N)
