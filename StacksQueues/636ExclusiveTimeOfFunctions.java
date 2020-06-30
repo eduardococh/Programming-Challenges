@@ -72,7 +72,19 @@ class Solution {
     
     public int[] exclusiveTime(int n, List<String> logs) {
         int res[]=new int[n];
-        
+        int currentId=-1,currentStart=-1;
+        Stack<Integer> idStack=new Stack<>(),timeStack=new Stack<>();
+        //we are supposing data is valid (any end has a start)
+        for(String log:logs){
+            if(idStack.isEmpty()){
+                idStack.push(getId(log));
+                timeStack.push(getTimestamp(log));
+            }else{
+                if(currentId>=0){//
+                
+                }   
+            }
+        }
         return res;
     }
     
@@ -91,4 +103,31 @@ class Solution {
         return Integer.parseInt(data[2]);
     }
 
+}
+
+
+
+public class Solution {
+    public int[] exclusiveTime(int n, List < String > logs) {
+        Stack < Integer > stack = new Stack < > ();
+        int[] res = new int[n];
+        String[] s = logs.get(0).split(":");
+        stack.push(Integer.parseInt(s[0]));
+        int i = 1, prev = Integer.parseInt(s[2]);
+        while (i < logs.size()) {
+            s = logs.get(i).split(":");
+            if (s[1].equals("start")) {
+                if (!stack.isEmpty())
+                    res[stack.peek()] += Integer.parseInt(s[2]) - prev;
+                stack.push(Integer.par seInt(s[0]));
+                prev = Integer.parseInt(s[2]);
+            } else {
+                res[stack.peek()] += Integer.parseInt(s[2]) - prev + 1;
+                stack.pop();
+                prev = Integer.parseInt(s[2]) + 1;
+            }
+            i++;
+        }
+        return res;
+    }
 }
