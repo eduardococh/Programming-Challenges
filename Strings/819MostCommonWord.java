@@ -12,11 +12,21 @@ class Solution {
         for(String word:words){
             if(!bannedWords.contains(word)){
                 //I'm not banned
-                if(counter.containsKey(word){
+                if(counter.containsKey(word)){
                     counter.put(word,couter.get(word)+1); 
+                    if(counter.get(word)>mostOcurrences){
+                        mostOcurrences=counter.get(word);
+                        res=word;
+                    }
+                }else{
+                    counter.put(word,1);
                 }
             }
         }
         return res;
+    }
+    
+    private String cleaner(String paragraph){
+        
     }
 }
