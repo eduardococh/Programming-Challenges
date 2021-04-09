@@ -50,3 +50,39 @@ class Solution {
         return graph;
     }
 }
+
+
+
+//Attempt using priority queue, might no be much better than simple dfs
+class Solution {
+    public int networkDelayTime(int[][] times, int N, int K) {
+        //Set<Integer> visited=new HashSet<Integer>();
+        ArrayList<ArrayList<Edge>> graph=new ArrayList<PriorityQueue<Edge>>();
+        for(int [] vertice:times){
+            if(graph.size()<(vertice[0]-2)){
+                graph.get(vertice[0]-1).add(new Edge(vertice[1],vertice[2]));
+            }else{
+                graph.add(new PriorityQueue<Edge>(new MyComparator()));
+            }
+        }
+        
+        
+    }
+    
+    static class Edge{
+        int destination;
+        int time;
+
+        public Edge(int destination,int time){
+            this.destination=destination;
+            this.time=time;
+        }
+    }
+    
+    static class MyComparator implements Comparator<Edge> {
+        public int compare(Edge a, Edge b) {
+            return a.time-b.time;
+        }
+    }
+    
+}
