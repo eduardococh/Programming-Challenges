@@ -121,3 +121,75 @@ public int maxProduct(int[] A) {
     }
     return maxsofar;
 }
+
+
+//My ugly solution
+//Runtime O(N)
+//Memory O(1)
+class Solution {
+    public int maxProduct(int[] nums) {
+        int res=Integer.MIN_VALUE;
+        int prevZero=0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==0){
+                if(res==Integer.MIN_VALUE) res=0;
+                int subarray=processSubarray(prevZero,i-1,nums);
+                prevZero=i+1;
+                if(subarray>res)  res=subarray;
+                
+            }else if(i==nums.length-1){
+                int subarray=processSubarray(prevZero,i,nums);
+                if(subarray>res)  res=subarray;
+                
+            }
+        }
+        return res;
+    }
+    
+    public int processSubarray(int start,int end,int[] nums){
+        //System.out.println(start+" "+end);
+        int negatives=0;
+        for(int i=start;i<=end;i++){
+            if(nums[i]<0){
+                negatives++;
+            }
+        }
+        if(negatives%2==0){//even negs
+            int res=nums[start];
+            for(int i=start+1;i<=end;i++){
+                res*=nums[i];
+            }
+            return res;
+        }else{//odd negs
+            if(negatives==1) negatives=0;
+            int currentNegs=negatives;
+            //System.out.println("odd "+currentNegs);
+            int resL=nums[start];
+            if(nums[start]<0) currentNegs--;
+            for(int i=start+1;i<=end;i++){
+                if(nums[i]<0) {
+                    currentNegs--;
+                    if(currentNegs<=0) break;
+                }
+                resL*=nums[i];
+            }
+        
+            currentNegs=negatives;
+            int resR=nums[end];
+            if(nums[end]<0) currentNegs--;
+            for(int i=end-1;i>=start;i--){
+                if(nums[i]<0) {
+                    currentNegs--;
+                    if(currentNegs<=0) break;
+                }
+                //System.out.println(nums[i]+" by "+resR);
+                resR*=nums[i];
+            }
+            if(resL>resR){
+                return resL;
+            }else{
+                return resR;
+            }
+        }
+    }
+}
