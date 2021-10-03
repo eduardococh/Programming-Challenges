@@ -34,6 +34,22 @@ class Solution {
     }
 }
 
+//Iterative solution using one array
+//Amazing runtime better than 100% O(N)
+//Bad memory better than 20% O(N)
+class Solution {
+    public int fib(int N) {
+        if(N==0) return 0;
+        int res[]=new int[N+1];
+        res[0]=0;
+        res[1]=1;
+        for(int i=2;i<=N;i++){
+            res[i]=res[i-1]+res[i-2];
+        }
+        return res[N];
+    }
+}
+
         //Iterative solution from leetcode's 0ms samples
         //Much better to use iterative solutions than recursive solutions because of memory
         //Amazing runtime 0ms better than 100% O(N)
