@@ -80,3 +80,18 @@ void anti_rotate(vector<vector<int> > &matrix) {
             swap(matrix[i][j], matrix[j][i]);
     }
 }*/
+
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        for(int i=0;i<matrix.length/2;i++){//ring
+            for(int row=0+i;row<matrix.length-i-1;row++){
+                for(int column=0+i;column<matrix.length-i-1;column++){
+                    int aux=matrix[row][matrix.length-i-1];
+                    matrix[row][matrix.length-i-1]=matrix[row][column];
+                    matrix[matrix.length-i-1][]
+                }
+            }
+        }
+    }
+}
