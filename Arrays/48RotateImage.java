@@ -27,23 +27,24 @@ class Solution {
         }
     }
 }
-
-class Solution {
+        //My own version of this elegant approach
+        //Trick to use single variable is to do the replacement in the reverse way
 		//Clearer elegant solution by leetcode samples
 		//Appeared as best runtime at 34672 kb but this measure is tricky in leetcode
 		//Same runtime and memory
+class Solution {
     public void rotate(int[][] matrix) {
-        int n = matrix.length;
-        int iMax = n/2 + (n % 2 == 1? 1 : 0);
-        int temp = 0;
-        for (int i = 0; i < iMax; i++) {
-            for (int j = i; j < n-i-1; j++) {
-                temp = matrix[i][j];
-                matrix[i][j] = matrix[n-j-1][i];
-                matrix[n-j-1][i] = matrix[n-i-1][n-j-1];
-                matrix[n-i-1][n-j-1] = matrix[j][n-i-1];
-                matrix[j][n-i-1] = temp;
+        final int size=matrix.length;
+        for(int position=0;position<size/2;position++){
+            
+            for(int i=0;i<size-(position*2)-1;i++){
+                int aux=matrix[position][position+i];
+                matrix[position][position+i]=matrix[size-position-i-1][position];
+                matrix[size-position-i-1][position]=matrix[size-position-1][size-position-i-1];
+                matrix[size-position-1][size-position-i-1]=matrix[position+i][size-position-1];
+                matrix[position+i][size-position-1]=aux;
             }
+            
         }
     }
 }
@@ -80,18 +81,3 @@ void anti_rotate(vector<vector<int> > &matrix) {
             swap(matrix[i][j], matrix[j][i]);
     }
 }*/
-
-
-class Solution {
-    public void rotate(int[][] matrix) {
-        for(int i=0;i<matrix.length/2;i++){//ring
-            for(int row=0+i;row<matrix.length-i-1;row++){
-                for(int column=0+i;column<matrix.length-i-1;column++){
-                    int aux=matrix[row][matrix.length-i-1];
-                    matrix[row][matrix.length-i-1]=matrix[row][column];
-                    matrix[matrix.length-i-1][]
-                }
-            }
-        }
-    }
-}
