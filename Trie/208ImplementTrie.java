@@ -105,3 +105,62 @@ class Trie {
         return true;
     }
 }
+
+
+//Second attempt
+//Done very quickly and easily, big improvement over first attempt 
+class Trie {
+    
+    private Trie[] next;
+    private String endOfWord;
+    
+    public Trie() {
+        next=new Trie[26];
+        endOfWord="";
+    }
+    
+    public void insert(String word) {
+        Trie iterator=this;
+        for(char car:word.toCharArray()){
+            if(iterator.next[car-'a']==null){
+                iterator.next[car-'a']=new Trie();    
+            }
+            iterator=iterator.next[car-'a'];
+        }
+        iterator.endOfWord=word;
+    }
+    
+    public boolean search(String word) {
+        Trie iterator=this;
+        for(char car:word.toCharArray()){
+            if(iterator.next[car-'a']==null){
+                return false;
+            }
+            iterator=iterator.next[car-'a'];
+        }
+        if(iterator.endOfWord.equals(word)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean startsWith(String prefix) {
+        Trie iterator=this;
+        for(char car:prefix.toCharArray()){
+            if(iterator.next[car-'a']==null){
+                return false;
+            }
+            iterator=iterator.next[car-'a'];
+        }
+        return true;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
