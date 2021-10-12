@@ -30,3 +30,21 @@ public class Solution extends GuessGame {
     }
 
 }
+
+    //Second attempt (part of leetcode daily challenges)
+    //Solved quickly with binary search
+public class Solution extends GuessGame {
+    public int guessNumber(int n) {
+        int current=n/2;
+        int low=1,high=n;
+        while(guess(current)!=0){
+            if(guess(current)<0){//num is lower
+                high=current-1;
+            }else{//num is higher
+                low=current+1;
+            }
+            current=low+(high-low)/2;
+        }
+        return current;
+    }
+}
