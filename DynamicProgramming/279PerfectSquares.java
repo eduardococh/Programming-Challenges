@@ -57,3 +57,37 @@ class Solution {
         return dp[n];
     }
 }
+
+//Second attempt, went for coin change approach as soon as I saw problem
+class Solution {
+    public int numSquares(int n) {
+        int perfectSquares[]=getPerfectSquares(n);
+        int dp[]=new int[n+1];
+        for(int i=1;i<=n;i++){
+            int currentSquare=0;
+            int smallerSoFar=Integer.MAX_VALUE;
+            while(currentSquare<perfectSquares.length && perfectSquares[currentSquare]<=i){
+                if(dp[i-perfectSquares[currentSquare]]+1<smallerSoFar){
+                    smallerSoFar=dp[i-perfectSquares[currentSquare]]+1;
+                }
+                currentSquare++;
+            }
+            dp[i]=smallerSoFar;
+        }
+        return dp[n];
+    }
+    
+    public int[] getPerfectSquares(int limit){
+        ArrayList<Integer> squares=new ArrayList<Integer>();
+        int i=1;
+        while(i*i<=limit){
+            squares.add(i*i);
+            i++;
+        }
+        int perfectSquares[]=new int[squares.size()];
+        for(int j=0;j<squares.size();j++){
+            perfectSquares[j]=squares.get(j);
+        }
+        return perfectSquares;
+    }
+}
