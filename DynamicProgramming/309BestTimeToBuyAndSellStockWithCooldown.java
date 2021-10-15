@@ -33,3 +33,29 @@ class Solution {
         return sell[n];
     }
 }
+
+
+//Brute force solution
+class Solution {
+    public int maxProfit(int[] prices) {
+        return maxProfit(prices,0,-1,0,false);
+    }
+    
+    public int maxProfit(int[] prices,int index,int stock,int profit,boolean cooldown){
+        if(index>=prices.length) return profit;
+        if(cooldown) return maxProfit(prices,index+1,-1,profit,false);
+        if(stock==-1){//we can buy
+            int weBuy=maxProfit(prices,index+1,prices[index],profit,false);
+            int dontBuy=maxProfit(prices,index+1,-1,profit,false);
+            return Math.max(weBuy,dontBuy);
+        }else{
+            if(prices[index]>stock){//we can sell
+                int weSell=maxProfit(prices,index+1,-1,profit+(prices[index]-stock),true);
+                int weHold=maxProfit(prices,index+1,stock,profit,false);
+                return Math.max(weSell,weHold);
+            }else{
+                return maxProfit(prices,index+1,stock,profit,false);
+            }
+        }
+    }
+}'
