@@ -41,3 +41,31 @@ class Solution {
         return nums[lo];
     }
 }
+
+
+class Solution {
+    public int findMin(int[] nums) {
+        if(nums[0]>nums[nums.length-1]){
+            //the minimum could be from 1 to N-1
+            //array is rotated
+            int left=0,right=nums.length-1;
+            while(left<=right){
+                int mid=left+(right-left)/2;
+                System.out.println(left+" "+mid+" "+right);
+                if(nums[mid-1]>nums[mid]) return nums[mid];
+                if(nums[left]<nums[mid]){
+                    //min is to the right
+                    left=mid+1;
+                }else{
+                    //min is to the left
+                    right=mid-1;
+                }                                                             
+            }
+            System.out.println(left+" "+mid+" "+right);
+            return nums[left]<nums[right]?nums[left]:nums[right];
+        }else{
+            //the minimum is at 0
+            return nums[0];
+        }
+    }
+}
