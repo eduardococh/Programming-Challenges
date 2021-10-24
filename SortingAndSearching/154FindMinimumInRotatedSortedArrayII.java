@@ -42,18 +42,19 @@ class Solution {
     }
 }
 
-
+//Attempt using binary search, no success, hit a wall with TC [10,1,10,10,10]
 class Solution {
     public int findMin(int[] nums) {
-        if(nums[0]>nums[nums.length-1]){
+        if(nums[0]>=nums[nums.length-1]){
             //the minimum could be from 1 to N-1
             //array is rotated
             int left=0,right=nums.length-1;
-            while(left<=right){
+            while(left+1<right){//we should at least have three
                 int mid=left+(right-left)/2;
                 System.out.println(left+" "+mid+" "+right);
                 if(nums[mid-1]>nums[mid]) return nums[mid];
-                if(nums[left]<nums[mid]){
+                if(left>0 && nums[left-1]>nums[left]) return nums[left];
+                if(nums[left]<=nums[mid]){
                     //min is to the right
                     left=mid+1;
                 }else{
@@ -61,7 +62,7 @@ class Solution {
                     right=mid-1;
                 }                                                             
             }
-            System.out.println(left+" "+mid+" "+right);
+            System.out.println(left+" "+right);
             return nums[left]<nums[right]?nums[left]:nums[right];
         }else{
             //the minimum is at 0
