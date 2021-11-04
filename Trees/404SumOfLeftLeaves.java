@@ -14,3 +14,18 @@ class Solution {
         return res;
     }
 }
+
+
+//Second solution, got this problem on daily leetcode challenges
+//Same approach as above, I believe more elegant
+class Solution {
+    public int sumOfLeftLeaves(TreeNode root) {
+        return sumOfLeftLeaves(root,false);
+    }
+    
+    public int sumOfLeftLeaves(TreeNode node,boolean left){
+        if(node==null) return 0;
+        if(left && node.left==null && node.right==null) return node.val;
+        return sumOfLeftLeaves(node.left,true)+sumOfLeftLeaves(node.right,false);
+    }
+}
